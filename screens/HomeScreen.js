@@ -25,14 +25,10 @@ const HomeScreen = () => {
 
   return (
     <>
-      <View style={styles.buttonText}>
-        <div>
-          <input placeholder="Search Bar" />
-        </div>
-      </View>
       <View>
         <SafeAreaView style={styles.container2}>
           <ScrollView style={styles.scrollView}>
+            <View style = {styles.welcome}><Text style = {styles.welcText}>Welcome {auth.currentUser?.email} to Manager Homepage</Text></View>
             <View style={styles.RectangleShapeView}>
               <Text style={styles.input}>Order 1</Text>
               <Text style={styles.input}>Order # : 123456</Text>
@@ -60,18 +56,23 @@ const HomeScreen = () => {
           </ScrollView>
         </SafeAreaView>
       </View>
-      <View style={styles.email}>
-        <Text>Email: {auth.currentUser?.email}</Text>
-      </View>
+      
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  email: {
-    alignItems: "center",
-    marginVertical: "90%",
+  welcText:{
+    fontSize:25,
+    fontStyle: 'italic',
   },
+  welcome:{
+    backgroundColor:"purple",
+    marginTop:"2%",
+  },
+  buttonText: {
+    backgroundColor:"purple",
+  },  
   ordersbox: {
     flexDirection: "row",
     height: "10%",
@@ -79,13 +80,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "#fff",
     borderWidth: 2,
+    backgroundColor : "#800080",
   },
   input: {
     backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 4,
   },
   outline: {
     backgroundColor: "white",
@@ -93,32 +95,31 @@ const styles = StyleSheet.create({
     borderColor: "#0782F9",
     borderWidth: 2,
   },
-
   container: {
     flex: 1,
-    // justifyContent: "center",
     alignItems: "flex-end",
     marginTop: "40%",
     textAlign: "right",
   },
   RectangleShapeView: {
-    height: 120,
-    // backgroundColor: "#FFC107",
-    // position: "absolute",
+    height: 180,
+    backgroundColor: "#FFC107",
+    justifyContent: "center",
     marginVertical: "10%",
     borderColor: "#000",
-    borderWidth: 2,
-    margin: "50%",
-    width: "100%",
+    borderWidth: 3,
+    borderRadius: "1rem",
+    margin: "30%",
+    width: "30%",
   },
   //emptyspace: { marginVertical: "25%" },
   container2: {
     flex: 1,
+    backgroundColor:"black",
     paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
-    backgroundColor: "white",
-    marginHorizontal: 20,
+    backgroundColor: "purple",
   },
 });
 export default HomeScreen;
