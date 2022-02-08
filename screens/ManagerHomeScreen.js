@@ -1,5 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
+import XBar from 'react-native-x-bar'
+
 import {
   StyleSheet,
   Text,
@@ -11,7 +13,7 @@ import {
 } from "react-native";
 import { auth } from "../firebase";
 
-const HomeScreen = () => {
+const ManagerHomeScreen = () => {
   const navigation = useNavigation();
 
   const handleSignOut = () => {
@@ -22,37 +24,38 @@ const HomeScreen = () => {
       })
       .catch((error) => alert(error.message));
   };
+  
 
   return (
+    
+
     <>
       <View>
         <SafeAreaView style={styles.container2}>
           <ScrollView style={styles.scrollView}>
-            <View style = {styles.welcome}><Text style = {styles.welcText}>Welcome {auth.currentUser?.email} to Manager Homepage</Text></View>
-            <View style={styles.RectangleShapeView}>
-              <Text style={styles.input}>Order 1</Text>
-              <Text style={styles.input}>Order # : 123456</Text>
-              <Text style={styles.input}>Driver : James</Text>
-              <Text style={styles.input}>Location: </Text>
-            </View>
-            <View style={[styles.RectangleShapeView, styles.emptyspace]}>
-              <Text style={[styles.input, styles.emptyspace]}>Order 2</Text>
-              <Text style={styles.input}>Order # : 147852</Text>
-              <Text style={styles.input}>Driver : David</Text>
-              <Text style={styles.input}>Location: </Text>
-            </View>
-            <View style={[styles.RectangleShapeView, styles.emptyspace]}>
-              <Text style={styles.input}>Order 3</Text>
-              <Text style={styles.input}>Order # : 3698524852</Text>
-              <Text style={styles.input}>Driver : John</Text>
-              <Text style={styles.input}>Location: </Text>
-            </View>
-            <View style={[styles.RectangleShapeView, styles.emptyspace]}>
-              <Text style={styles.input}>Order 4</Text>
-              <Text style={styles.input}>Order # : 3698524852</Text>
-              <Text style={styles.input}>Driver : John</Text>
-              <Text style={styles.input}>Location: </Text>
-            </View>
+            <XBar
+             
+              slots= {[
+                {style : styles.slot},
+                [
+                  {
+                    children : <Text>Invite Drivers</Text>,
+                    onPress : () => Alert.alert('slot one pressed')
+                  },
+                  {
+                    children : <Text>Track Drivers</Text>,
+                    onPress : () => Alert.alert('slot two pressed')
+                  },
+                  {
+                    children : <Text>Sign Out</Text>,
+                    onPress : () => Alert.alert('slot three pressed')
+                  },
+                ]
+              ]}
+              
+              style={ styles.bar }
+            />
+            
           </ScrollView>
         </SafeAreaView>
       </View>
@@ -62,6 +65,26 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  bar : {
+    backgroundColor:"purple",
+    marginTop : 10,
+    marginRight : 10,
+    marginLeft : 10,
+    justifyContent: "space-between",
+  },
+  sendorder : {
+
+  },
+  slot:{
+    color: "black",
+    fontSize: 20,
+    padding : 10,
+    justifyContent:"space-evenly",
+    hover :{
+      borderColor : 'yellow',
+      borderWidth : 1,
+    },
+  },
   welcText:{
     fontSize:25,
     fontStyle: 'italic',
@@ -122,4 +145,4 @@ const styles = StyleSheet.create({
     backgroundColor: "purple",
   },
 });
-export default HomeScreen;
+export default ManagerHomeScreen;
