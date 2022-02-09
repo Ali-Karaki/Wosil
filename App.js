@@ -20,22 +20,22 @@ export default function App() {
         <Stack.Navigator
           initialRouteName="StartScreen"
           screenOptions={{
-            headerShown: true,
+            headerShown: false,
           }}
         >
           <Stack.Screen
             //options={{ headerShown: false }}
-            name="Login"
+            name="LoginScreen"
             component={LoginScreen}
           />
           <Stack.Screen
             //options={{ headerShown: false }}
-            name="Signup"
+            name="SignupScreen"
             component={SignupScreen}
           />
           <Stack.Screen
             //options={{ headerShown: false }}
-            name="ManagerHome"
+            name="ManagerHomeScreen"
             component={ManagerHomeScreen}
           />
           <Stack.Screen
