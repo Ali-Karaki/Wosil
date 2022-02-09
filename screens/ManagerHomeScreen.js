@@ -74,10 +74,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     justifyContent: "space-evenly",
-    hover: {
-      borderColor: "yellow",
-      borderWidth: 1,
-    },
   },
   welcText: {
     fontSize: 25,
@@ -94,7 +90,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: "10%",
     padding: 20,
-    borderRadius: 10,
     borderColor: "#fff",
     borderWidth: 2,
     backgroundColor: "#800080",
@@ -103,7 +98,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 10,
-    borderRadius: 10,
     marginTop: 4,
   },
   outline: {
@@ -125,7 +119,6 @@ const styles = StyleSheet.create({
     marginVertical: "10%",
     borderColor: "#000",
     borderWidth: 3,
-    borderRadius: "1rem",
     margin: "30%",
     width: "30%",
   },
