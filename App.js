@@ -4,7 +4,12 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen";
-import HomeScreen from "./screens/HomeScreen";
+import SignupScreen from "./screens/SignupScreen"
+import StartScreen from "./screens/StartScreen"
+import ResetPasswordScreen from "./screens/ResetPasswordScreen"
+
+import ManagerHomeScreen from "./screens/ManagerHomeScreen";
+import { AppRegistry } from "react-native-web";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,16 +17,37 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          initialRouteName="StartScreen"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
           <Stack.Screen
-            options={{ Headershown: false }}
+            //options={{ headerShown: false }}
             name="Login"
             component={LoginScreen}
           />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            //options={{ headerShown: false }} 
+            name="Signup" 
+            component={SignupScreen}
+          />
+          <Stack.Screen
+            //options={{ headerShown: false }} 
+            name="ManagerHome" 
+            component={ManagerHomeScreen}
+          />
+          <Stack.Screen
+            name="ResetPasswordScreen"
+            component={ResetPasswordScreen}
+          />
+
         </Stack.Navigator>
       </NavigationContainer>
     </>
   );
 }
 const styles = StyleSheet.create({});
+
+AppRegistry.registerComponent('firebaseauth', () => App);
