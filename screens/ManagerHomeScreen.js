@@ -16,15 +16,7 @@ import { auth } from "../firebase";
 const ManagerHomeScreen = () => {
   const navigation = useNavigation();
 
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("Login");
-      })
-      .catch((error) => alert(error.message));
-  };
-  
+
 
   return (
     
@@ -33,28 +25,7 @@ const ManagerHomeScreen = () => {
       <View>
         <SafeAreaView style={styles.container2}>
           <ScrollView style={styles.scrollView}>
-            <XBar
-             
-              slots= {[
-                {style : styles.slot},
-                [
-                  {
-                    children : <Text>Invite Drivers</Text>,
-                    onPress : () => Alert.alert('slot one pressed')
-                  },
-                  {
-                    children : <Text>Track Drivers</Text>,
-                    onPress : () => Alert.alert('slot two pressed')
-                  },
-                  {
-                    children : <Text>Sign Out</Text>,
-                    onPress : () => Alert.alert('slot three pressed')
-                  },
-                ]
-              ]}
-              
-              style={ styles.bar }
-            />
+          
             
           </ScrollView>
         </SafeAreaView>
