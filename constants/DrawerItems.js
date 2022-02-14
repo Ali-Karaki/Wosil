@@ -19,4 +19,9 @@ export default [
     iconType: "FontAwesome5",
     iconName: "user-friends",
   },
+  {
+    name: "Sign out",
+    iconType: "FontAwesome5",
+    iconName: "user-friends",
+  },
 ];

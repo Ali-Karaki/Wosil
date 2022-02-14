@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
@@ -18,90 +18,100 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import SavedScreen from "./screens/Saved";
 import ReferScreen from "./screens/Refer";
 import DrawerItems from "./constants/DrawerItems";
+import { auth } from "./firebase";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-  return (
-    <>
-      <NavigationContainer>
-        {/* <Stack.Navigator
-          initialRouteName="StartScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="LoginScreen"
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="SignupScreen"
-            component={SignupScreen}
-          />
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="ManagerHomeScreen"
-            component={ManagerHomeScreen}
-          />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-        </Stack.Navigator> */}
-
-        <Drawer.Navigator
-          drawerType="front"
-          initialRouteName="Profile"
-          drawerContentOptions={{
-            activeTintColor: "#e91e63",
-            itemStyle: { marginVertical: 10 },
-          }}
-        >
-          {DrawerItems.map((drawer) => (
-            <Drawer.Screen
-              key={drawer.name}
-              name={drawer.name}
-              options={{
-                drawerIcon: ({ focused }) =>
-                  drawer.iconType === "Material" ? (
-                    <MaterialCommunityIcons
-                      name={drawer.iconName}
-                      size={24}
-                      color={focused ? "#e91e63" : "black"}
-                    />
-                  ) : drawer.iconType === "Feather" ? (
-                    <Feather
-                      name={drawer.iconName}
-                      size={24}
-                      color={focused ? "#e91e63" : "black"}
-                    />
-                  ) : (
-                    <FontAwesome5
-                      name={drawer.iconName}
-                      size={24}
-                      color={focused ? "#e91e63" : "black"}
-                    />
-                  ),
-              }}
-              component={
-                drawer.name === "Profile"
-                  ? ProfileScreen
-                  : drawer.name === "Settings"
-                  ? SettingsScreen
-                  : drawer.name === "Saved Items"
-                  ? SavedScreen
-                  : ReferScreen
-              }
+  let a = "a";
+  if (a === "a") {
+    return (
+      <>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="StartScreen"
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen
+              //options={{ headerShown: false }}
+              name="LoginScreen"
+              component={LoginScreen}
             />
-          ))}
-        </Drawer.Navigator>
-      </NavigationContainer>
-    </>
-  );
+            <Stack.Screen
+              //options={{ headerShown: false }}
+              name="SignupScreen"
+              component={SignupScreen}
+            />
+            <Stack.Screen
+              //options={{ headerShown: false }}
+              name="ManagerHomeScreen"
+              component={ManagerHomeScreen}
+            />
+            <Stack.Screen
+              name="ResetPasswordScreen"
+              component={ResetPasswordScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <NavigationContainer>
+          <Drawer.Navigator
+            drawerType="front"
+            initialRouteName="Profile"
+            drawerContentOptions={{
+              activeTintColor: "#e91e63",
+              itemStyle: { marginVertical: 10 },
+            }}
+          >
+            {DrawerItems.map((drawer) => (
+              <Drawer.Screen
+                key={drawer.name}
+                name={drawer.name}
+                options={{
+                  drawerIcon: ({ focused }) =>
+                    drawer.iconType === "Material" ? (
+                      <MaterialCommunityIcons
+                        name={drawer.iconName}
+                        size={24}
+                        color={focused ? "#e91e63" : "black"}
+                      />
+                    ) : drawer.iconType === "Feather" ? (
+                      <Feather
+                        name={drawer.iconName}
+                        size={24}
+                        color={focused ? "#e91e63" : "black"}
+                      />
+                    ) : (
+                      <FontAwesome5
+                        name={drawer.iconName}
+                        size={24}
+                        color={focused ? "#e91e63" : "black"}
+                      />
+                    ),
+                }}
+                component={
+                  drawer.name === "Profile"
+                    ? ProfileScreen
+                    : drawer.name === "Settings"
+                    ? SettingsScreen
+                    : drawer.name === "Saved Items"
+                    ? SavedScreen
+                    : ReferScreen
+                }
+              />
+            ))}
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </>
+    );
+  }
 }
 const styles = StyleSheet.create({});
 

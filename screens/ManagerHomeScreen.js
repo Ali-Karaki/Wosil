@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { auth } from "../firebase";
 
+
+
 const ManagerHomeScreen = () => {
   const navigation = useNavigation();
 

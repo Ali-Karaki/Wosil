@@ -10,12 +10,27 @@ import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
+import { auth } from "../firebase";
+import firebase from "firebase";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
 
   const onLoginPressed = () => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("user logged");
+      }
+    });
+
+    var user = auth.currentUser;
+
+    if (user) {
+      // User is signed in.
+    } else {
+      // No user is signed in.
+    }
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
     if (emailError || passwordError) {
@@ -23,12 +38,48 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError });
       return;
     }
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("user logged");
+      }
+    });
+
+    var user = auth.currentUser;
+
+    if (user) {
+      // User is signed in.
+    } else {
+      // No user is signed in.
+    }
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        var uid = user.uid;
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
     navigation.reset({
       index: 0,
       routes: [{ name: "ManagerHomeScreen" }],
     });
   };
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("user logged");
+  }
+});
 
+var user = auth.currentUser;
+
+if (user) {
+  // User is signed in.
+} else {
+  // No user is signed in.
+}
   return (
     <Background>
       {/* <BackButton goBack={navigation.goBack} /> */}
