@@ -38,7 +38,7 @@ const ManagerHomeScreen = () => {
 const styles = StyleSheet.create({
   bar : {
     backgroundColor:"purple",
-    marginTop : 10,
+    marginTop : 20,
     marginRight : 10,
     marginLeft : 10,
     justifyContent: "space-between",
