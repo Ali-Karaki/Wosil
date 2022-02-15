@@ -98,23 +98,23 @@ const ManagerHomeScreen = () => {
             // style={styles.justifyContent}
             onPress={() => setScaleAnimationDialog(true)}
           >
-          <View style={StyleSheet.MainContainer}>
-            <View
-              style={{
-                backgroundColor: "#ff0000",
-                width: "100%",
-                height: 100,
-                borderColor: "#000",
-                borderWidth: 2,
-                borderRadius: 9,
-                justifyContent: "center",
-              }}
-            >
-              <Text style={StyleSheet.text}> Order# </Text>
-              <Text style={StyleSheet.text}> Driver: </Text>
-              <Text style={StyleSheet.text}> Status: </Text>
+            <View style={StyleSheet.MainContainer}>
+              <View
+                style={{
+                  backgroundColor: "#ff0000",
+                  width: "100%",
+                  height: 100,
+                  borderColor: "#000",
+                  borderWidth: 2,
+                  borderRadius: 9,
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={StyleSheet.text}> Order# </Text>
+                <Text style={StyleSheet.text}> Driver: </Text>
+                <Text style={StyleSheet.text}> Status: </Text>
+              </View>
             </View>
-          </View>
           </TouchableHighlight>
         </ScrollView>
       </SafeAreaView>
