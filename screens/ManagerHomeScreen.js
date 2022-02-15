@@ -1,12 +1,5 @@
-import { useNavigation } from "@react-navigation/core";
 import React from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import ManageDriversScreen from "./ManageDriversScreen";
-import DrawerItems from "../constants/DrawerItems";
+
 
 
 import {
@@ -18,17 +11,11 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { auth } from "../firebase";
-import { NavigationContainer } from "@react-navigation/native";
+
 
 const ManagerHomeScreen = () => {
-  const navigation = useNavigation();
-  const Drawer = createDrawerNavigator();
- 
-
   return (
     <>  
-     
      
       <View>
         <SafeAreaView style={styles.container2}>
