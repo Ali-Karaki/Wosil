@@ -41,86 +41,83 @@ const ManagerHomeScreen = () => {
   const [slideAnimationDialog, setSlideAnimationDialog] = useState(false);
   return (
     <>
-      <View>
-        <SafeAreaView
-          style={{
-            flex: 1.5,
-            backgroundColor: "black",
-            paddingTop: StatusBar.currentHeight,
-          }}
-        >
-          <ScrollView style={{ backgroundColor: "#ffffff" }}>
-            <View style={styles.MainContainer}>
-              {/* For Scale Animation Dialog */}
-              <TouchableHighlight
-                // style={styles.justifyContent}
-                onPress={() => setScaleAnimationDialog(true)}
-              >
-                <Text>Order Details</Text>
-              </TouchableHighlight>
-              <Dialog
-                onTouchOutside={() => {
-                  setScaleAnimationDialog(false);
-                }}
-                width={0.9}
-                visible={scaleAnimationDialog}
-                dialogAnimation={new ScaleAnimation()}
-                onHardwareBackPress={() => {
-                  setScaleAnimationDialog(false);
-                  console.log("onHardwareBackPress");
-                  return true;
-                }}
-                dialogTitle={
-                  <DialogTitle title="Order Details" hasTitleBar={false} />
-                }
-                actions={[
-                  <DialogButton
-                    text="DISMISS"
+      <SafeAreaView
+        style={{
+          flex: 1.5,
+          backgroundColor: "black",
+          paddingTop: StatusBar.currentHeight,
+        }}
+      >
+        <ScrollView style={{ backgroundColor: "#ffffff" }}>
+          <View style={styles.MainContainer}>
+            {/* For Scale Animation Dialog */}
+            <Dialog
+              onTouchOutside={() => {
+                setScaleAnimationDialog(false);
+              }}
+              width={0.9}
+              visible={scaleAnimationDialog}
+              dialogAnimation={new ScaleAnimation()}
+              onHardwareBackPress={() => {
+                setScaleAnimationDialog(false);
+                console.log("onHardwareBackPress");
+                return true;
+              }}
+              dialogTitle={
+                <DialogTitle title="Order Details" hasTitleBar={false} />
+              }
+              actions={[
+                <DialogButton
+                  text="DISMISS"
+                  onPress={() => {
+                    setScaleAnimationDialog(false);
+                  }}
+                  key="button-1"
+                />,
+              ]}
+            >
+              <DialogContent>
+                <View>
+                  <Text style={styles.modalText}>Driver Name</Text>
+                  <Text style={styles.modalText}>Driver Phone Number</Text>
+                  <Text style={styles.modalText}>Driver Location</Text>
+                  <Text style={styles.modalText}>Status</Text>
+                  <Button
+                    title="Close"
                     onPress={() => {
                       setScaleAnimationDialog(false);
                     }}
                     key="button-1"
-                  />,
-                ]}
-              >
-                <DialogContent>
-                  <View>
-                    <Text style={styles.modalText}>Driver Name</Text>
-                    <Text style={styles.modalText}>Driver Phone Number</Text>
-                    <Text style={styles.modalText}>Driver Location</Text>
-                    <Text style={styles.modalText}>Status</Text>
-                    <Button
-                      title="Close"
-                      onPress={() => {
-                        setScaleAnimationDialog(false);
-                      }}
-                      key="button-1"
-                    />
-                  </View>
-                </DialogContent>
-              </Dialog>
-            </View>
+                  />
+                </View>
+              </DialogContent>
+            </Dialog>
+          </View>
 
-            <View style={StyleSheet.MainContainer}>
-              <View
-                style={{
-                  backgroundColor: "#ff0000",
-                  width: "100%",
-                  height: 100,
-                  borderColor: "#000",
-                  borderWidth: 2,
-                  borderRadius: 9,
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={StyleSheet.text}> Order# </Text>
-                <Text style={StyleSheet.text}> Driver: </Text>
-                <Text style={StyleSheet.text}> Status: </Text>
-              </View>
+          <TouchableHighlight
+            // style={styles.justifyContent}
+            onPress={() => setScaleAnimationDialog(true)}
+          >
+          <View style={StyleSheet.MainContainer}>
+            <View
+              style={{
+                backgroundColor: "#ff0000",
+                width: "100%",
+                height: 100,
+                borderColor: "#000",
+                borderWidth: 2,
+                borderRadius: 9,
+                justifyContent: "center",
+              }}
+            >
+              <Text style={StyleSheet.text}> Order# </Text>
+              <Text style={StyleSheet.text}> Driver: </Text>
+              <Text style={StyleSheet.text}> Status: </Text>
             </View>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
+          </View>
+          </TouchableHighlight>
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 };
