@@ -7,46 +7,89 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import StartScreen from "./screens/StartScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import Icon from "@expo/vector-icons/Ionicons";
+import { FontAwesome5 } from "@expo/vector-icons";  
+import { MaterialIcons } from "@expo/vector-icons";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import ManageDriversScreen from "./screens/ManageDriversScreen";
+import DrawerItems from "./constants/DrawerItems";
 
 import ManagerHomeScreen from "./screens/ManagerHomeScreen";
-import { AppRegistry } from "react-native-web";
+import { AppRegistry, TouchableOpacity } from "react-native-web";
+
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+const handleSignOut = () => {
+  auth
+    .signOut()
+    .then(() => {
+      navigation.replace("LoginScreen");
+    })
+    .catch((error) => alert(error.message));
+};
 
-export default function App() {
+
+function login(){
   return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="StartScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="LoginScreen"
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="SignupScreen"
-            component={SignupScreen}
-          />
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="ManagerHomeScreen"
-            component={ManagerHomeScreen}
-          />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+    <Stack.Navigator
+      initialRouteName="LoginScreen"
+    >
+        <Stack.Screen
+        options={{ headerShown: false }}
+        name="LoginScreen"
+        component={LoginScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="SignupScreen"
+          component={SignupScreen}
+        />
+        <Stack.Screen
+          name="ResetPasswordScreen"
+          component={ResetPasswordScreen}
+        />
+
+        <Stack.Screen
+          options = {{headerShown : false}}
+          name="ManagerHomeScreen"
+          component={Root}
+        />
+    </Stack.Navigator>
   );
 }
-const styles = StyleSheet.create({});
+function Root() {
+  return (
+    <Drawer.Navigator
+      options = {{headerShown : false}}
+      >
+      <Drawer.Screen 
+        name="Home"
+        component={ManagerHomeScreen} />
+      <Drawer.Screen 
+      name="Drivers" 
+      component={ManageDriversScreen} />
+    </Drawer.Navigator>
+  );
+}
+
+ 
+export default function App() {
+  return (
+  <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen
+          name="login"
+          component={login}
+          options={{ headerShown: false }}
+        />
+     
+      </Stack.Navigator>
+     </NavigationContainer> 
+      
+  );
+}
 
 AppRegistry.registerComponent("wosil", () => App);
