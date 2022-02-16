@@ -1,20 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import StartScreen from "./screens/StartScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
-import { Ionicons } from "@expo/vector-icons";
-import { MdDeliveryDining} from "react-icons/md";
+import { Ionicons} from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import ManageDriversScreen from "./screens/ManageDriversScreen";
 import ManagerHomeScreen from "./screens/ManagerHomeScreen";
-import { AppRegistry, TouchableOpacity } from "react-native-web";
 import {GiCarWheel} from "react-icons/gi";
 import CustomDrawer from "./components/CustomDrawer";
-import { IconBase } from "react-icons";
+
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
