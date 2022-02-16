@@ -13,6 +13,9 @@ import ManageDriversScreen from "./screens/ManageDriversScreen";
 import ManagerHomeScreen from "./screens/ManagerHomeScreen";
 import { AppRegistry, TouchableOpacity } from "react-native-web";
 import {GiCarWheel} from "react-icons/gi";
+import CustomDrawer from "./components/CustomDrawer";
+import { IconBase } from "react-icons";
+
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const handleSignOut = () => {
@@ -29,6 +32,7 @@ function login(){
   return (
     <Stack.Navigator
       initialRouteName="LoginScreen"
+      options={{ headerShown: false }}
     >
         <Stack.Screen
         options={{ headerShown: false }}
@@ -41,6 +45,7 @@ function login(){
           component={SignupScreen}
         />
         <Stack.Screen
+          options={{ headerShown: false }}
           name="ResetPasswordScreen"
           component={ResetPasswordScreen}
         />
@@ -56,47 +61,34 @@ function login(){
 function Root() {
   return (
     <Drawer.Navigator
-      screenOptions={{
-        drawerstyle:{
-          backgroundColor: "purple"
-      
-         },
-        drawerContentOptions:{
-          activeTintColor: '#fff', /* font color for active screen label */
-          activeBackgroundColor: '#4770ff', /* bg color for active screen */
-          inactiveTintColor: 'grey',
-          itemStyle: {marginVertical: 5},
-        }
-     
-      }}
-     
-      
-      >
-      
+        drawerContent = {props => <CustomDrawer {...props} /> }
+        screenOptions ={{
+          headerTintColor:"#660066",
+          headerBackgroundContainerStyle : {
+            color:"purple"
+          },
+          drawerActiveTintColor:"#660066",
+          drawerLabelStyle :{
+            marginLeft : -25,
+            fontFamily:"Roboto-Medium",
+            fontSize:15
+          },
+      }}>
       <Drawer.Screen 
         name="Home"
-        options = {{
-          drawerIcon: ({focused, size}) => (
-            <Ionicons
-               name="md-home"
-               size={size}
-               color={focused ? '#7cc' : '#ccc'}
-            />
-        ),
-        }}
-        component={ManagerHomeScreen} />
+        component={ManagerHomeScreen} 
+         options = {{
+          drawerIcon: ({color}) => (<Ionicons name="md-home"size={22} color = {color}/>)
+         }}
+         />
       <Drawer.Screen 
       name="Drivers" 
       options = {{
-          drawerIcon: ({focused,size}) => (
-            <GiCarWheel
-              size = {size}
-              name  ="GiCarWheel"
-              color={focused ? '#7cc' : '#ccc'}
-              />
-        ), 
+        drawerIcon: ({color}) => (<GiCarWheel name="GiCarWheel" size={22} color = {color} />)
+        
       }}
       component={ManageDriversScreen} />
+    
     </Drawer.Navigator>
   );
 }
@@ -104,6 +96,7 @@ function Root() {
  
 export default function App() {
   return (
+  
   <NavigationContainer>
       <Stack.Navigator>
       <Stack.Screen
@@ -118,4 +111,4 @@ export default function App() {
   );
 }
 
-AppRegistry.registerComponent("wosil", () => App);
+
