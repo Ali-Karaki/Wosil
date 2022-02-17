@@ -1,129 +1,96 @@
-import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { auth } from "../firebase";
+import React, { useState } from "react";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
+import Background from "../components/Background";
+import Logo from "../components/Logo";
+import Header from "../components/Header";
+import Button from "../components/Button";
+import TextInput from "../components/TextInput";
+import BackButton from "../components/BackButton";
+import { theme } from "../core/theme";
+import { emailValidator } from "../helpers/emailValidator";
+import { passwordValidator } from "../helpers/passwordValidator";
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function LoginScreen({ navigation }) {
+  const [email, setEmail] = useState({ value: "", error: "" });
+  const [password, setPassword] = useState({ value: "", error: "" });
 
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.replace("Home");
-      }
+  const onLoginPressed = () => {
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
+    if (emailError || passwordError) {
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
+      return;
+    }
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ManagerHomeScreen" }],
     });
-
-    return unsubscribe;
-  }, []);
-
-  const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Registered with:", user.email);
-      })
-      .catch((error) => alert(error.message));
-  };
-
-  const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Logged in with:", user.email);
-      })
-      .catch((error) => alert(error.message));
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
+    <Background>
+      {/* <BackButton goBack={navigation.goBack} /> */}
+      <Logo />
+      <Header>Welcome back.</Header>
+      <TextInput
+        label="Email"
+        returnKeyType="next"
+        value={email.value}
+        onChangeText={(text) => setEmail({ value: text, error: "" })}
+        error={!!email.error}
+        errorText={email.error}
+        autoCapitalize="none"
+        autoCompleteType="email"
+        textContentType="emailAddress"
+        keyboardType="email-address"
+      />
+      <TextInput
+        label="Password"
+        returnKeyType="done"
+        value={password.value}
+        onChangeText={(text) => setPassword({ value: text, error: "" })}
+        error={!!password.error}
+        errorText={password.error}
+        secureTextEntry
+      />
+      <View style={styles.forgotPassword}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("ResetPasswordScreen")}
         >
-          <Text style={styles.buttonOutlineText}>Register</Text>
+          <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+      <Button mode="contained" onPress={onLoginPressed}>
+        Login
+      </Button>
+      <View style={styles.row}>
+        <Text>Don’t have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SignupScreen")}>
+          <Text style={styles.link}>Sign up</Text>
+        </TouchableOpacity>
+      </View>
+    </Background>
   );
-};
-
-export default LoginScreen;
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputContainer: {
-    width: "80%",
-  },
-  input: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
-  },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-  },
-  button: {
-    backgroundColor: "#0782F9",
+  forgotPassword: {
     width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
+    alignItems: "flex-end",
+    marginBottom: 24,
   },
-  buttonOutline: {
-    backgroundColor: "white",
-    marginTop: 8,
-    borderColor: "#0782F9",
-    borderWidth: 2,
+  row: {
+    flexDirection: "row",
+    marginTop: 4,
   },
-  buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
+  forgot: {
+    fontSize: 13,
+    color: theme.colors.secondary,
   },
-  buttonOutlineText: {
-    color: "#0782F9",
-    fontWeight: "700",
-    fontSize: 16,
+  link: {
+    fontWeight: "bold",
+    color: theme.colors.primary,
   },
 });
