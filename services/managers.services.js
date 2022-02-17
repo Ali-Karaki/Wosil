@@ -2,7 +2,7 @@ import firebase from "firebase";
 import { app } from "../firebase.js";
 import {getAllDrivers} from "./drivers.services.js";
 
-const db = firebase.firestore()
+const db = firebase.firestore();
 
 /**
  * async function to get all manager
@@ -94,8 +94,4 @@ async function addManager(name, mail, companyName, phoneNumber) {
     }
 }
 
-// example of how to use the function
-const a = await getAllDrivers();
-a.forEach(doc => {
-    console.log(doc.data().phoneNumber);
-});
+export {getAllDrivers,addManager,isAvailableMail,isAvailablePhone};
