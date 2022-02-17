@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-import React from "react";
-=======
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
->>>>>>> master
 import {
   Pressable,
   TouchableOpacity,
@@ -15,21 +11,6 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-<<<<<<< HEAD
-
-
-const ManagerHomeScreen = () => {
-  return (
-    <>  
-     
-      <View>
-        <SafeAreaView style={styles.container2}>
-          <ScrollView style={styles.scrollView}>
-            <Text style = {styles.buttonText}> Never Gonna Give you up, Never gonna let you down </Text>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
-=======
 import Dialog, {
   DialogTitle,
   DialogContent,
@@ -137,63 +118,12 @@ const ManagerHomeScreen = () => {
           </TouchableHighlight>
         </ScrollView>
       </SafeAreaView>
->>>>>>> master
     </>
   );
 };
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
-  bar: {
-    backgroundColor: "purple",
-    marginTop: 10,
-    marginRight: 10,
-    marginLeft: 10,
-    justifyContent: "space-between",
-  },
-  sendorder: {},
-  slot: {
-    color: "black",
-    fontSize: 20,
-    padding: 10,
-    justifyContent: "space-evenly",
-  },
-  welcText: {
-    fontSize: 25,
-    fontStyle: "italic",
-  },
-  welcome: {
-    backgroundColor: "purple",
-    marginTop: "2%",
-  },
-  buttonText: {
-    marginTop: "20%",
-    backgroundColor: "purple",
-  },
-  ordersbox: {
-    flexDirection: "row",
-    height: "10%",
-    padding: 20,
-    borderColor: "#fff",
-    borderWidth: 2,
-    backgroundColor: "#800080",
-  },
-  input: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    marginTop: 4,
-  },
-  outline: {
-    backgroundColor: "white",
-    marginTop: 8,
-    borderColor: "#0782F9",
-    borderWidth: 2,
-  },
-  container: {
-=======
   MainContainer: {
->>>>>>> master
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
