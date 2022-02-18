@@ -117,7 +117,7 @@ const ManagerHomeScreen = () => {
               </View>
             </View>
           </TouchableHighlight>
-          <Button title="Sign Out" onPress={handleSignOut}></Button>
+          {/* <Button title="Sign Out" onPress={handleSignOut}></Button> */}
         </ScrollView>
       </SafeAreaView>
     </>

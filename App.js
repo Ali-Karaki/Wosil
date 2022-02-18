@@ -23,7 +23,7 @@ export default function App() {
     });
     console.log(isLoggedIn);
   }, 5000);
-  if (!isLoggedIn) {
+  if (isLoggedIn) {
     return (
       <NavigationContainer>
         <Stack.Navigator>
@@ -40,7 +40,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     );
-  } else if (isLoggedIn) {
+  } else {
     return (
       <>
         <NavigationContainer>
