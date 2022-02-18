@@ -21,13 +21,12 @@ import Dialog, {
 } from "react-native-popup-dialog";
 
 import { auth } from "../firebase";
+
 import AlertBox from "react-native-easy-alert";
 
 import { Button } from "react-native";
 
 const ManagerHomeScreen = () => {
-  const navigation = useNavigation();
-
   const handleSignOut = () => {
     auth
       .signOut()
@@ -36,6 +35,8 @@ const ManagerHomeScreen = () => {
       })
       .catch((error) => alert(error.message));
   };
+
+  const navigation = useNavigation();
   const [defaultAnimationDialog, setDefaultAnimationDialog] = useState(false);
   const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
   const [slideAnimationDialog, setSlideAnimationDialog] = useState(false);
@@ -60,7 +61,7 @@ const ManagerHomeScreen = () => {
               dialogAnimation={new ScaleAnimation()}
               onHardwareBackPress={() => {
                 setScaleAnimationDialog(false);
-                console.log("onHardwareBackPress");
+                // console.log("onHardwareBackPress");
                 return true;
               }}
               dialogTitle={
@@ -116,6 +117,9 @@ const ManagerHomeScreen = () => {
               </View>
             </View>
           </TouchableHighlight>
+          {/* <Button title="ayy" onPress={handleSignOut}>
+            ayyyy
+          </Button> */}
         </ScrollView>
       </SafeAreaView>
     </>

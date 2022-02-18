@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { AppRegistry } from "react-native-web";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -9,25 +9,26 @@ import ManagerHomeScreen from "./screens/ManagerHomeScreen";
 import SignupScreen from "./screens/SignupScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Button from "./components/Button";
+import { auth } from "./firebase";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-  let isLoggedIn = true;
+  let isLoggedIn = false;
+
+  setInterval(function () {
+    auth.onAuthStateChanged((user) => {
+      isLoggedIn = user !== null;
+    });
+    console.log(isLoggedIn);
+  }, 5000);
   if (!isLoggedIn) {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="LoginScreen"
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            name="SignupScreen"
-            component={SignupScreen}
-          />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="SignupScreen" component={SignupScreen} />
           <Stack.Screen
             name="ManagerHomeScreen"
             component={ManagerHomeScreen}
@@ -39,7 +40,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     );
-  } else {
+  } else if (isLoggedIn) {
     return (
       <>
         <NavigationContainer>
