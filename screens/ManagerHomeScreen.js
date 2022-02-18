@@ -1,16 +1,18 @@
 import { useNavigation } from "@react-navigation/core";
-import { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React,{ useState } from "react";
+import { Alert, Modal, StyleSheet, Text, View,Pressable,
+        TouchableOpacity,
+        SafeAreaView,
+        TouchableHighlight,
+        ScrollView,
+        StatusBar,
+        Button,
+      } from "react-native";
 
-import {
-  Pressable,
-  TouchableOpacity,
-  SafeAreaView,
-  TouchableHighlight,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import TextInput from "../components/TextInput"
+
+
+
 import Dialog, {
   DialogTitle,
   DialogContent,
@@ -23,65 +25,106 @@ import Dialog, {
 import { auth } from "../firebase";
 import AlertBox from "react-native-easy-alert";
 
-import { Button } from "react-native";
+
 
 const ManagerHomeScreen = () => {
-  const navigation = useNavigation();
-
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("LoginScreen");
-      })
-      .catch((error) => alert(error.message));
-  };
-  const [defaultAnimationDialog, setDefaultAnimationDialog] = useState(false);
+  const [PickupLocation, setPickup] = useState({ value: '' })
+  const [Dropoff, setDropoff] = useState({ value: '' })
+  const [CustomerNum, setCustomerNum] = useState({ value: '' })
+  const [Price,setPrice] =useState({ value: '' })
+  const [Length,setLength] =useState({ value: '' })
+  const [Width,setWidth] =useState({ value: '' })
+  const [StartTime,setStartTime] =useState({ value: '' })
+  const [EndTime,setEndTime] =useState({ value: '' })
   const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
-  const [slideAnimationDialog, setSlideAnimationDialog] = useState(false);
+
   return (
     <>
+     
       <SafeAreaView
         style={{
           flex: 1.5,
-          backgroundColor: "black",
+          backgroundColor:"white",
           paddingTop: StatusBar.currentHeight,
         }}
       >
-        <ScrollView style={{ backgroundColor: "#ffffff" }}>
+     
+        <ScrollView >
           <View style={styles.MainContainer}>
             {/* For Scale Animation Dialog */}
+        
+           
+                <Button 
+                  title="Create New Order"
+                  onPress={() => setScaleAnimationDialog(true)} 
+                  style = {styles.appButtonContainer}
+                  />
+             
+            
             <Dialog
-              onTouchOutside={() => {
-                setScaleAnimationDialog(false);
-              }}
-              width={0.9}
+              width= "50%"
               visible={scaleAnimationDialog}
-              dialogAnimation={new ScaleAnimation()}
-              onHardwareBackPress={() => {
-                setScaleAnimationDialog(false);
-                console.log("onHardwareBackPress");
-                return true;
-              }}
-              dialogTitle={
-                <DialogTitle title="Order Details" hasTitleBar={false} />
-              }
-              actions={[
-                <DialogButton
-                  text="DISMISS"
-                  onPress={() => {
-                    setScaleAnimationDialog(false);
-                  }}
-                  key="button-1"
-                />,
-              ]}
             >
+         
               <DialogContent>
-                <View>
-                  <Text style={styles.modalText}>Driver Name</Text>
-                  <Text style={styles.modalText}>Driver Phone Number</Text>
-                  <Text style={styles.modalText}>Driver Location</Text>
-                  <Text style={styles.modalText}>Status</Text>
+                <ScrollView>
+                  <TextInput 
+                    label="Pick Up Location"
+                    value={PickupLocation.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setPickup({ value: text })}
+                   
+                  />
+                   <TextInput 
+                    label="Drop off Location"
+                    value={Dropoff.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setDropoff({ value: text })}
+                   
+                  />
+                   <TextInput 
+                    label="Customer Number"
+                    value={CustomerNum.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setCustomerNum({ value: text })}
+                   
+                  />
+                   <TextInput 
+                    label="StartTime"
+                    value={StartTime.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setStartTime({ value: text })}
+                   
+                  />
+                   <TextInput 
+                    label="Length"
+                    value={Length.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setLength({ value: text })}
+                   
+                  />
+                  <TextInput 
+                    label="Width"
+                    value={Width.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setWidth({ value: text })}
+                   
+                  />
+                  <TextInput 
+                    label="Price"
+                    value={Price.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setPrice({ value: text })}
+                   
+                  />
+                  <TextInput 
+                    label="End Time"
+                    value={EndTime.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setEndTime({ value: text })}
+                   
+                  />
+                 
                   <Button
                     title="Close"
                     onPress={() => {
@@ -89,9 +132,11 @@ const ManagerHomeScreen = () => {
                     }}
                     key="button-1"
                   />
-                </View>
+                </ScrollView>
               </DialogContent>
+            
             </Dialog>
+            
           </View>
 
           <TouchableHighlight
@@ -101,22 +146,41 @@ const ManagerHomeScreen = () => {
             <View style={StyleSheet.MainContainer}>
               <View
                 style={{
-                  backgroundColor: "#ff0000",
-                  width: "100%",
-                  height: 100,
+                  backgroundColor: "#eee256",
+                  width: 300,
                   borderColor: "#000",
-                  borderWidth: 2,
+                  borderWidth: 10,
                   borderRadius: 9,
                   justifyContent: "center",
+                  marginLeft:35,
+                  height: 250,
                 }}
               >
-                <Text style={StyleSheet.text}> Order# </Text>
-                <Text style={StyleSheet.text}> Driver: </Text>
-                <Text style={StyleSheet.text}> Status: </Text>
+                <Text style={StyleSheet.text}> Example:  </Text>
+                <Text style={StyleSheet.text}> PickupLocation: Mousseitbeh  </Text>
+                <Text style={StyleSheet.text}> Dropoff: Bliss </Text>
+                <Text style={StyleSheet.text}> CustomerNum: 71488763 </Text>
+                <Text style={StyleSheet.text}> StartTime: 12 pm </Text>
+                <Text style={StyleSheet.text}> Length : 40cm</Text>
+                <Text style={StyleSheet.text}> Width: 50cm </Text>
+                <Text style={StyleSheet.text}> Price: 40,000 LBP </Text>
+                <Text style={StyleSheet.text}> Driver: Khaled  Jizi </Text>
+                <Text style={StyleSheet.text}> EndTime: TBA </Text>
               </View>
             </View>
           </TouchableHighlight>
+          <View style={{
+            marginTop:"20%",
+            borderWidth: 10,
+            borderColor: "black",
+            backgroundColor: "#eee256",
+            borderRadius: 50,
+            marginRight: "35%",
+          }}>
+            <Text style={styles.currentorder}>Current Orders :</Text>
+          </View>
         </ScrollView>
+       
       </SafeAreaView>
     </>
   );
@@ -124,19 +188,41 @@ const ManagerHomeScreen = () => {
 
 const styles = StyleSheet.create({
   MainContainer: {
+    marginTop: 50,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width : "50%",
+    
   },
+  appButtonContainer:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'red',
 
+   
+  },
+  currentorder:{
+    fontSize: 30,
+    fontFamily:"Roboto",
+    
+    
+    
+  },
   text: {
     fontSize: 30,
     color: "white",
     textAlign: "center",
+
   },
   button: {
     borderRadius: 20,
     padding: 10,
+    marginTop: 10,
     elevation: 2,
   },
 
