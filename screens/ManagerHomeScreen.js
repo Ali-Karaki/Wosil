@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React,{ useState } from "react";
+import React,{ useState ,useEffect,setState} from "react";
 import { Alert, Modal, StyleSheet, Text, View,Pressable,
         TouchableOpacity,
         SafeAreaView,
@@ -10,7 +10,7 @@ import { Alert, Modal, StyleSheet, Text, View,Pressable,
       } from "react-native";
 
 import TextInput from "../components/TextInput"
-
+import {getAllOrders,createOrder} from "../services/orders.services.js";
 
 
 import Dialog, {
@@ -24,10 +24,12 @@ import Dialog, {
 
 import { auth } from "../firebase";
 import AlertBox from "react-native-easy-alert";
+import Order from "../components/Order";
+import { AntDesign } from "@expo/vector-icons";
 
 
 
-const ManagerHomeScreen = () => {
+const ManagerHomeScreen =  () => {
   const [PickupLocation, setPickup] = useState({ value: '' })
   const [Dropoff, setDropoff] = useState({ value: '' })
   const [CustomerNum, setCustomerNum] = useState({ value: '' })
@@ -36,8 +38,14 @@ const ManagerHomeScreen = () => {
   const [Width,setWidth] =useState({ value: '' })
   const [StartTime,setStartTime] =useState({ value: '' })
   const [EndTime,setEndTime] =useState({ value: '' })
+  const [DeliveryCharge,setDeliveryCharge] =useState({ value: '' })
   const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
-
+  // const ordersComponents = useEffect(() => {
+  //   const orders = getAllOrders();
+  //   let newState = orders.map(order => {<Order key={order.id} order={order}/>});
+  //     return {newState}
+  // }, []);
+ 
   return (
     <>
      
@@ -54,20 +62,54 @@ const ManagerHomeScreen = () => {
             {/* For Scale Animation Dialog */}
         
            
-                <Button 
-                  title="Create New Order"
-                  onPress={() => setScaleAnimationDialog(true)} 
-                  style = {styles.appButtonContainer}
-                  />
-             
-            
+            <TouchableOpacity onPress={() => {setScaleAnimationDialog(true)}}>
+                  <View style={{
+                      backgroundColor: 'red',
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      borderRadius: 60,
+                      paddingTop:30,
+                      paddingBottom:30,
+                      marginLeft:80,
+                      marginRight: -100,
+                      marginBottom:30,
+                      marginTop:80,
+                    }}
+                  >
+                    <Text style={{ color: 'white' }}>Click Here to Create a New Order</Text>
+                  </View>
+                </TouchableOpacity>
+                
+                
             <Dialog
-              width= "50%"
+              width= "80%"
+              height = "60%"
               visible={scaleAnimationDialog}
+
             >
          
-              <DialogContent>
+              <DialogContent >
+              <TouchableOpacity
+                  onPress={() => { setScaleAnimationDialog(false)}}
+                  //icon ={ <FontAwesome5  name="window-close" size = {24} />}
+                >
+                    <View 
+                        style = {{
+                          alignSelf: 'flex-end',
+                          marginTop: 3,
+                          left: 5,
+                          top: 5, 
+                          marginBottom:5,
+                        }}
+                      >
+                        <AntDesign
+                          name = "closecircle"
+                          size = {24}
+                          />
+                    </View>
+                  </TouchableOpacity> 
                 <ScrollView>
+
                   <TextInput 
                     label="Pick Up Location"
                     value={PickupLocation.value}
@@ -87,13 +129,6 @@ const ManagerHomeScreen = () => {
                     value={CustomerNum.value}
                     returnKeyType="next"
                     onChangeText={(text) => setCustomerNum({ value: text })}
-                   
-                  />
-                   <TextInput 
-                    label="StartTime"
-                    value={StartTime.value}
-                    returnKeyType="next"
-                    onChangeText={(text) => setStartTime({ value: text })}
                    
                   />
                    <TextInput 
@@ -117,18 +152,20 @@ const ManagerHomeScreen = () => {
                     onChangeText={(text) => setPrice({ value: text })}
                    
                   />
-                  <TextInput 
-                    label="End Time"
-                    value={EndTime.value}
+                     <TextInput 
+                    label="Delivery Charge"
+                    value={DeliveryCharge.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setEndTime({ value: text })}
+                    onChangeText={(text) => setDeliveryCharge({ value: text })}
                    
                   />
+              
                  
                   <Button
-                    title="Close"
+                    title="Create"
                     onPress={() => {
-                      setScaleAnimationDialog(false);
+                      createOrder(Width,Length,PickupLocation,Dropoff,Price,DeliveryCharge) 
+                     
                     }}
                     key="button-1"
                   />
@@ -139,46 +176,22 @@ const ManagerHomeScreen = () => {
             
           </View>
 
-          <TouchableHighlight
-            // style={styles.justifyContent}
-            onPress={() => setScaleAnimationDialog(true)}
-          >
-            <View style={StyleSheet.MainContainer}>
-              <View
-                style={{
-                  backgroundColor: "#eee256",
-                  width: 300,
-                  borderColor: "#000",
-                  borderWidth: 10,
-                  borderRadius: 9,
-                  justifyContent: "center",
-                  marginLeft:35,
-                  height: 250,
-                }}
-              >
-                <Text style={StyleSheet.text}> Example:  </Text>
-                <Text style={StyleSheet.text}> PickupLocation: Mousseitbeh  </Text>
-                <Text style={StyleSheet.text}> Dropoff: Bliss </Text>
-                <Text style={StyleSheet.text}> CustomerNum: 71488763 </Text>
-                <Text style={StyleSheet.text}> StartTime: 12 pm </Text>
-                <Text style={StyleSheet.text}> Length : 40cm</Text>
-                <Text style={StyleSheet.text}> Width: 50cm </Text>
-                <Text style={StyleSheet.text}> Price: 40,000 LBP </Text>
-                <Text style={StyleSheet.text}> Driver: Khaled  Jizi </Text>
-                <Text style={StyleSheet.text}> EndTime: TBA </Text>
-              </View>
+          <TouchableHighlight>
+            <View style={styles.MainContainer}>
+                    
+                    {/* {ordersComponents} */}
             </View>
           </TouchableHighlight>
+          
           <View style={{
             marginTop:"20%",
-            borderWidth: 10,
-            borderColor: "black",
-            backgroundColor: "#eee256",
+            fontWeight:900,
             borderRadius: 50,
             marginRight: "35%",
           }}>
             <Text style={styles.currentorder}>Current Orders :</Text>
-          </View>
+          </View> 
+
         </ScrollView>
        
       </SafeAreaView>
@@ -203,7 +216,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'red',
-
+    marginLeft:"70%",
+    marginBottom:30,
    
   },
   currentorder:{
