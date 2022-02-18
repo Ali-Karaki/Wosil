@@ -29,16 +29,6 @@ export default function LoginScreen() {
     return unsubscribe;
   }, []);
 
-  const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        // console.log("Registered with:", user);
-      })
-      .catch((error) => alert(error.message));
-  };
-
   const handleLogin = () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);

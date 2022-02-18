@@ -61,7 +61,6 @@ const ManagerHomeScreen = () => {
               dialogAnimation={new ScaleAnimation()}
               onHardwareBackPress={() => {
                 setScaleAnimationDialog(false);
-                // console.log("onHardwareBackPress");
                 return true;
               }}
               dialogTitle={

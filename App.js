@@ -21,7 +21,7 @@ export default function App() {
     auth.onAuthStateChanged((user) => {
       isLoggedIn = user !== null;
     });
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
   }, 5000);
   if (isLoggedIn) {
     return (
