@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import { app } from "../firebase.js";
-import {getAllDrivers} from "./drivers.services.js";
+import { getAllDrivers } from "./drivers.services.js";
 
 const db = firebase.firestore();
 
@@ -18,11 +18,35 @@ async function getAllManagers() {
 }
 
 /**
+ * 
+ * @param {String} mail 
+ * @returns {snapshot: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>}
+ */
+async function getManagerbyMail(mail) {
+    const query = await db.collection('managers').where('mail', '==', mail).get();
+    if (!query.empty) {
+        const snapshot = query.docs[0];
+        return snapshot;
+    } else {
+        console.log("mail not found");
+        return new Error("mail not found");
+    }
+}
+
+function getManagerId(manager) {
+    return manager.id;
+}
+
+function getManagerData(manager){
+    return manager.data();
+}
+
+/**
  * async function to check is the email is available
  * @param {string} mail 
  * @returns {boolean} boolean indicating if the mail is available
  */
-async function isAvailableMail(mail){
+async function isAvailableMail(mail) {
     const managers = await getAllManagers();
     const drivers = await getAllDrivers();
     for (let index = 0; index < managers.length; index++) {
@@ -45,7 +69,7 @@ async function isAvailableMail(mail){
  * @param {string} phoneNumber 
  * @returns {boolean} boolean indicating if the phoneNumber is available
  */
-async function isAvailablePhone(phoneNumber){
+async function isAvailablePhone(phoneNumber) {
     const managers = await getAllManagers();
     const drivers = await getAllDrivers();
     for (let index = 0; index < managers.length; index++) {
@@ -75,23 +99,23 @@ async function isAvailablePhone(phoneNumber){
 async function addManager(name, mail, companyName, phoneNumber) {
     const isAvailableMailvar = await isAvailableMail(mail);
     const isAvailablePhonevar = await isAvailablePhone(phoneNumber);
-    if(!isAvailableMailvar){
+    if (!isAvailableMailvar) {
         return new Error("email already already in use");
     }
-    else if(!isAvailablePhonevar){
+    else if (!isAvailablePhonevar) {
         return new Error("phonenumber already in use");
     }
-    else{
+    else {
         const data = {
             "name": name,
             "mail": mail,
             "companyName": companyName,
             "phoneNumber": phoneNumber,
-            "drivers" : []
+            "drivers": []
         }
         const res = await db.collection('managers').add(data);
         return res;
     }
 }
 
-export {getAllDrivers,addManager,isAvailableMail,isAvailablePhone};
+export { getAllManagers, addManager, isAvailableMail, isAvailablePhone, getManagerbyMail, getManagerId, getManagerData};
