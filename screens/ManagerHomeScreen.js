@@ -44,7 +44,7 @@ const ManagerHomeScreen = () => {
       <SafeAreaView
         style={{
           flex: 1.5,
-          backgroundColor: "black",
+          backgroundColor: "white",
           paddingTop: StatusBar.currentHeight,
         }}
       >
