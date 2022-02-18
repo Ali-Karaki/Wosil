@@ -1,40 +1,34 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "./screens/LoginScreen";
-import SignupScreen from "./screens/SignupScreen";
-import StartScreen from "./screens/StartScreen";
-import ResetPasswordScreen from "./screens/ResetPasswordScreen";
-
-import ManagerHomeScreen from "./screens/ManagerHomeScreen";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { AppRegistry } from "react-native-web";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+import StartScreen from "./screens/StartScreen";
+import LoginScreen from "./screens/LoginScreen";
+import ManagerHomeScreen from "./screens/ManagerHomeScreen";
+import SignupScreen from "./screens/SignupScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Button from "./components/Button";
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
-  return (
-    <>
+  let isLoggedIn = true;
+  if (!isLoggedIn) {
+    return (
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="StartScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
+        <Stack.Navigator>
           <Stack.Screen
-            //options={{ headerShown: false }}
             name="LoginScreen"
             component={LoginScreen}
           />
           <Stack.Screen
-            //options={{ headerShown: false }}
             name="SignupScreen"
             component={SignupScreen}
           />
           <Stack.Screen
-            //options={{ headerShown: false }}
             name="ManagerHomeScreen"
             component={ManagerHomeScreen}
           />
@@ -44,8 +38,28 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
-  );
+    );
+  } else {
+    return (
+      <>
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName="StartScreen">
+            <Drawer.Screen name="StartScreen" component={StartScreen} />
+            <Drawer.Screen name="LoginScreen" component={LoginScreen} />
+            <Drawer.Screen
+              name="ManagerHomeScreen"
+              component={ManagerHomeScreen}
+            />
+            <Drawer.Screen name="SignupScreen" component={SignupScreen} />
+            <Drawer.Screen
+              name="ResetPasswordScreen"
+              component={ResetPasswordScreen}
+            />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </>
+    );
+  }
 }
 const styles = StyleSheet.create({});
 
