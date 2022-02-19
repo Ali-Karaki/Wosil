@@ -44,11 +44,11 @@ const ManagerHomeScreen = () => {
       <SafeAreaView
         style={{
           flex: 1.5,
-          backgroundColor: "black",
+          backgroundColor: "#f1f1f1",
           paddingTop: StatusBar.currentHeight,
         }}
       >
-        <ScrollView style={{ backgroundColor: "#ffffff" }}>
+        <ScrollView style={{ backgroundColor: "#f1f1f1" }}>
           <View style={styles.MainContainer}>
             {/* For Scale Animation Dialog */}
             <Dialog
@@ -98,21 +98,30 @@ const ManagerHomeScreen = () => {
             // style={styles.justifyContent}
             onPress={() => setScaleAnimationDialog(true)}
           >
-            <View style={StyleSheet.MainContainer}>
+            <View style={styles.MainContainer}>
               <View
                 style={{
-                  backgroundColor: "#ff0000",
-                  width: "100%",
+                  backgroundColor: "#fff",
+                  width: "75%",
+
+                  //marginLeft: "13%",
+
                   height: 100,
-                  borderColor: "#000",
-                  borderWidth: 2,
+                  borderColor: "#efefef",
+                  shadowColor: "black",
+                  shadowOpacity: 0.26,
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 10,
+                  elevation: 3,
+                  borderWidth: 1,
                   borderRadius: 9,
+                  padding: 10,
                   justifyContent: "center",
                 }}
               >
-                <Text style={StyleSheet.text}> Order# </Text>
-                <Text style={StyleSheet.text}> Driver: </Text>
-                <Text style={StyleSheet.text}> Status: </Text>
+                <Text style={styles.text}> Order#: </Text>
+                <Text style={styles.text}> Driver: </Text>
+                <Text style={styles.text}> Status: </Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -127,12 +136,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f1f1f1",
   },
 
   text: {
-    fontSize: 30,
-    color: "white",
-    textAlign: "center",
+    fontSize: 22,
+    color: "black",
+    textAlign: "left",
   },
   button: {
     borderRadius: 20,
