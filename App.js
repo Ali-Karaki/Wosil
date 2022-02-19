@@ -10,57 +10,62 @@ import SignupScreen from "./screens/SignupScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
+import { ActivityIndicator } from "react-native";
+import { useState, useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-  let isLoggedIn = false;
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
-  setInterval(function () {
+  const authenticateUser = () => {
     auth.onAuthStateChanged((user) => {
-      isLoggedIn = user !== null;
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
     });
-    // console.log(isLoggedIn);
-  }, 5000);
-  if (isLoggedIn) {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="SignupScreen" component={SignupScreen} />
-          <Stack.Screen
-            name="ManagerHomeScreen"
-            component={ManagerHomeScreen}
-          />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  } else {
-    return (
-      <>
-        <NavigationContainer>
-          <Drawer.Navigator initialRouteName="StartScreen">
-            <Drawer.Screen name="StartScreen" component={StartScreen} />
-            <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-            <Drawer.Screen
-              name="ManagerHomeScreen"
-              component={ManagerHomeScreen}
-            />
-            <Drawer.Screen name="SignupScreen" component={SignupScreen} />
-            <Drawer.Screen
-              name="ResetPasswordScreen"
-              component={ResetPasswordScreen}
-            />
-          </Drawer.Navigator>
-        </NavigationContainer>
-      </>
-    );
-  }
+  };
+
+  console.log("isLoggedIn ", isLoggedIn);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      authenticateUser;
+    }
+  }, [isLoggedIn]);
+
+  if (isLoggedIn === null) return <ActivityIndicator />;
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="StartScreen"
+      >
+        <Stack.Screen name="Root" component={Root} />
+        <Stack.Screen name="StartScreen" component={StartScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen
+          name="ResetPasswordScreen"
+          component={ResetPasswordScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function Root() {
+  return (
+    <Drawer.Navigator initialRouteName="ManagerHomeScreen">
+      <Drawer.Screen name="ManagerHomeScreen" component={ManagerHomeScreen} />
+    </Drawer.Navigator>
+  );
 }
 const styles = StyleSheet.create({});
 

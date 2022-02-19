@@ -22,7 +22,7 @@ export default function LoginScreen() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("ManagerHomeScreen");
+        navigation.navigate("ManagerHomeScreen");
       }
     });
 
@@ -37,7 +37,7 @@ export default function LoginScreen() {
         .signInWithEmailAndPassword(email, password)
         .then((userCredentials) => {
           const user = userCredentials.user;
-          navigation.navigate("ManagerHomeScreen");
+          navigation.navigate("Root");
 
           // console.log("Logged in with:", user);
         })
