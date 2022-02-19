@@ -64,26 +64,32 @@ const ManagerHomeScreen =  () => {
            
             <TouchableOpacity onPress={() => {setScaleAnimationDialog(true)}}>
                   <View style={{
-                      backgroundColor: 'red',
+                      backgroundColor: 'purple',
                       alignItems: 'center', 
                       justifyContent: 'center',
                       borderRadius: 60,
                       paddingTop:30,
                       paddingBottom:30,
-                      marginLeft:80,
-                      marginRight: -100,
+                      marginLeft:40,
+                      paddingLeft:5,
+                      paddingRight:5,
+                      marginRight: -150,
                       marginBottom:30,
                       marginTop:80,
+
                     }}
                   >
-                    <Text style={{ color: 'white' }}>Click Here to Create a New Order</Text>
+                    <Text style={{ color: 'white'}}>Click Here to Create a New Order</Text>
                   </View>
                 </TouchableOpacity>
                 
                 
             <Dialog
-              width= "80%"
-              height = "60%"
+            style = {{
+              width : "80%",
+              height : "40%"
+            }}
+             
               visible={scaleAnimationDialog}
 
             >
@@ -108,7 +114,12 @@ const ManagerHomeScreen =  () => {
                           />
                     </View>
                   </TouchableOpacity> 
-                <ScrollView>
+                <ScrollView
+                      style={{
+                        
+                        width:250,
+                      }}
+                  >
 
                   <TextInput 
                     label="Pick Up Location"
@@ -173,7 +184,28 @@ const ManagerHomeScreen =  () => {
               </DialogContent>
             
             </Dialog>
-            
+            <View
+                style={{
+                  backgroundColor: "purple",
+                  width: 300,
+                  borderColor: "#000",
+                  borderWidth: 10,
+                  borderRadius: 9,
+                  justifyContent: "center",
+                  marginLeft:"90%",
+                  height: "60%",
+                }}
+              >
+                 <Text style={{ fontSize: 20,color: "white",marginLeft:90}}> Example : </Text>
+                <Text style={styles.text}> Pickup Location: Moussetibeh </Text>
+                <Text style={styles.text}> Dropoff Location:Bliss  </Text>
+                <Text style={styles.text}> Customer number: 71590832 </Text>
+                <Text style={styles.text}> Length (in cm): 50 </Text>
+                <Text style={styles.text}> Width(in cm):40  </Text>
+                <Text style={styles.text}> Price: 50,000 LBP </Text>
+                <Text style={styles.text}> DeliverCharge: 10,000 LBP </Text>
+
+              </View>
           </View>
 
           <TouchableHighlight>
@@ -228,9 +260,9 @@ const styles = StyleSheet.create({
     
   },
   text: {
-    fontSize: 30,
+    fontSize: 20,
     color: "white",
-    textAlign: "center",
+  
 
   },
   button: {
