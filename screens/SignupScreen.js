@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
+import { View } from "react-native";
+import { StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
