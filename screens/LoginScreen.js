@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { TouchableOpacity, StyleSheet, View, StatusBar } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -12,6 +12,8 @@ import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
+import { SafeAreaView } from "react-native";
+import { ScrollView } from "react-native";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -22,7 +24,7 @@ export default function LoginScreen() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("ManagerHomeScreen");
+        navigation.navigate("Root");
       }
     });
 
@@ -46,48 +48,60 @@ export default function LoginScreen() {
   };
 
   return (
-    <Background>
-      {/* <BackButton goBack={navigation.goBack} /> */}
-      <Logo />
-      <Header>Welcome back.</Header>
-      <TextInput
-        label="Email"
-        returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail(text)}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
-      <TextInput
-        label="Password"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword(text)}
-        error={!!password.error}
-        errorText={password.error}
-        secureTextEntry
-      />
-      <View style={styles.forgotPassword}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ResetPasswordScreen")}
-        >
-          <Text style={styles.forgot}>Forgot your password?</Text>
-        </TouchableOpacity>
-      </View>
-      <Button mode="contained" onPress={handleLogin}>
-        Login
-      </Button>
-      <View style={styles.row}>
-        <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("SignupScreen")}>
-          <Text style={styles.link}>Sign up</Text>
-        </TouchableOpacity>
-      </View>
-    </Background>
+    <SafeAreaView
+      style={{
+        flex: 1.5,
+        backgroundColor: "white",
+        paddingTop: StatusBar.currentHeight,
+      }}
+    >
+      <ScrollView style={{ backgroundColor: "#ffffff" }}>
+        <Background>
+          {/* <BackButton goBack={navigation.goBack} /> */}
+          <Logo />
+          <Header>Welcome back.</Header>
+          <TextInput
+            label="Email"
+            returnKeyType="next"
+            value={email.value}
+            onChangeText={(text) => setEmail(text)}
+            error={!!email.error}
+            errorText={email.error}
+            autoCapitalize="none"
+            autoCompleteType="email"
+            textContentType="emailAddress"
+            keyboardType="email-address"
+          />
+          <TextInput
+            label="Password"
+            returnKeyType="done"
+            value={password.value}
+            onChangeText={(text) => setPassword(text)}
+            error={!!password.error}
+            errorText={password.error}
+            secureTextEntry
+          />
+          <View style={styles.forgotPassword}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ResetPasswordScreen")}
+            >
+              <Text style={styles.forgot}>Forgot your password?</Text>
+            </TouchableOpacity>
+          </View>
+          <Button mode="contained" onPress={handleLogin}>
+            Login
+          </Button>
+          <View style={styles.row}>
+            <Text>Don’t have an account? </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SignupScreen")}
+            >
+              <Text style={styles.link}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
+        </Background>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

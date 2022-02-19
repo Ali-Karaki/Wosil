@@ -65,7 +65,7 @@ const ManagerHomeScreen = () => {
           // paddingTop: StatusBar.currentHeight,
         }}
       >
-        <ScrollView style={{ backgroundColor: "#ffffff" }}>
+        <ScrollView style={{ backgroundColor: "#f1f1f1" }}>
           <View style={styles.MainContainer}>
             {/* For Scale Animation Dialog */}
 
@@ -267,7 +267,7 @@ const ManagerHomeScreen = () => {
               </View>
             </TouchableHighlight>
           </View>
-          {/* <Button title="Sign Out" onPress={handleSignOut}></Button> */}
+          <Button title="Sign Out" onPress={handleSignOut}></Button>
         </ScrollView>
       </SafeAreaView>
     </>
@@ -279,12 +279,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f1f1f1",
   },
 
   text: {
-    fontSize: 30,
-    color: "white",
-    textAlign: "center",
+    fontSize: 22,
+    color: "black",
+    textAlign: "left",
   },
   button: {
     borderRadius: 20,

@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { View } from "react-native";
+import { StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -17,37 +12,61 @@ import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { nameValidator } from "../helpers/nameValidator";
 import { theme } from "../core/theme";
-import { auth } from "../firebase";
+import { SafeAreaView } from "react-native";
+import { ScrollView } from "react-native";
+import {
+  getAllDrivers,
+  addManager,
+  isAvailableMail,
+  isAvailablePhone,
+} from "../services/managers.services";
+import firebase from "firebase";
+import { app } from "../firebase.js";
 
 export default function SignupScreen({ navigation }) {
-  const [name, setName] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
+  addManager(name, email, comName, phoneNbr);
+  const [name, setName] = useState({ value: "", error: "" });
+  const [email, setEmail] = useState({ value: "", error: "" });
+  const [password, setPassword] = useState({ value: "", error: "" });
+  const [comName, setComName] = useState({ value: "", error: "" });
+  const [phoneNbr, setPhoneNbr] = useState({ value: "", error: "" });
 
-  const handleSignUp = () => {
-    const nameError = nameValidator(name);
-    const emailError = emailValidator(email);
-    const passwordError = passwordValidator(password);
-    if (emailError || passwordError || nameError) {
+  const onSignUpPressed = () => {
+    const nameError = nameValidator(name.value);
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
+    const comNameError = nameValidator(comName.value);
+    const phoneNbrError = nameValidator(phoneNbr.value);
+
+    if (
+      emailError ||
+      passwordError ||
+      nameError ||
+      comNameError ||
+      phoneNbrError
+    ) {
       setName({ ...name, error: nameError });
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
+      setComName({ ...comName, error: comNameError });
+      setPhoneNbr({ ...phoneNbr, error: phoneNbrError });
       return;
     }
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        // console.log("Registered with:", user);
-      })
-      .catch((error) => alert(error.message));
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ManagerHomeScreen" }],
+    });
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView
+      style={{
+        flex: 1.5,
+        backgroundColor: "white",
+        paddingTop: StatusBar.currentHeight,
+      }}
+    >
+      <ScrollView style={{ backgroundColor: "#ffffff" }}>
         <Background>
           {/* <BackButton goBack={navigation.goBack} /> */}
           <Logo />
@@ -56,24 +75,31 @@ export default function SignupScreen({ navigation }) {
             label="Name"
             returnKeyType="next"
             value={name.value}
-            onChangeText={(text) => setName(text)}
+            onChangeText={(text) => setName({ value: text })}
             error={!!name.error}
             errorText={name.error}
           />
           <TextInput
-            label="Company Name"
-            returnKeyType="done"
-            value={password.value}
-            onChangeText={(text) => setCompanyName(text)}
-            error={!!password.error}
-            errorText={password.error}
-            secureTextEntry
+            label="Company's Name"
+            returnKeyType="next"
+            value={comName.value}
+            onChangeText={(text) => setComName({ value: text })}
+            error={!!comName.error}
+            errorText={comName.error}
+          />
+          <TextInput
+            label="Phone Number"
+            returnKeyType="next"
+            value={phoneNbr.value}
+            onChangeText={(text) => setPhoneNbr({ value: text })}
+            error={!!phoneNbr.error}
+            errorText={phoneNbr.error}
           />
           <TextInput
             label="Email"
             returnKeyType="next"
             value={email.value}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => setEmail({ value: text })}
             error={!!email.error}
             errorText={email.error}
             autoCapitalize="none"
@@ -82,26 +108,17 @@ export default function SignupScreen({ navigation }) {
             keyboardType="email-address"
           />
           <TextInput
-            label="Phone Number"
-            returnKeyType="done"
-            value={password.value}
-            onChangeText={(text) => setPhoneNumber(text)}
-            error={!!password.error}
-            errorText={password.error}
-            secureTextEntry
-          />
-          <TextInput
             label="Password"
             returnKeyType="done"
             value={password.value}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => setPassword({ value: text })}
             error={!!password.error}
             errorText={password.error}
             secureTextEntry
           />
           <Button
             mode="contained"
-            onPress={handleSignUp}
+            onPress={onSignUpPressed}
             style={{ marginTop: 24 }}
           >
             Sign Up
