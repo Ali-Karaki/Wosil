@@ -29,8 +29,6 @@ export default function App() {
     });
   };
 
-  console.log("isLoggedIn ", isLoggedIn);
-
   useEffect(() => {
     if (!isLoggedIn) {
       authenticateUser;

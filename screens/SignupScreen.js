@@ -40,7 +40,7 @@ export default function SignupScreen({ navigation }) {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log("Registered with:", user);
+        // console.log("Registered with:", user);
       })
       .catch((error) => alert(error.message));
   };

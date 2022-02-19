@@ -39,7 +39,7 @@ export default function LoginScreen() {
           const user = userCredentials.user;
           navigation.navigate("Root");
 
-          // console.log("Logged in with:", user);
+          console.log("Logged in with:", user);
         })
         .catch((error) => alert(error.message));
     }
