@@ -44,8 +44,8 @@ import { getAllOrders,createOrder } from "./orders.services.js";
 //linkDriverToManager("test1","moe@gmail.com");
 
 //get all orders test
-//const o = await getAllOrders("moe@gmail.com");
-//o.forEach(doc => {console.log(doc.data());});
+// const o = await getAllOrders("moe@gmail.com");
+// o.forEach(doc => {console.log(doc.data());});
 
 //create order test
 //createOrder(1,1,"city","street",1,1,"121","moe@gmail.com");
