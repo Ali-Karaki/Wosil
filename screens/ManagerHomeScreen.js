@@ -22,22 +22,11 @@ import Dialog, {
   ScaleAnimation,
 } from "react-native-popup-dialog";
 
-import { auth } from "../firebase";
-
 import AlertBox from "react-native-easy-alert";
 
 import { Button } from "react-native";
 
 const ManagerHomeScreen = () => {
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("LoginScreen");
-      })
-      .catch((error) => alert(error.message));
-  };
-
   const navigation = useNavigation();
   const [defaultAnimationDialog, setDefaultAnimationDialog] = useState(false);
   const [
@@ -267,7 +256,6 @@ const ManagerHomeScreen = () => {
               </View>
             </TouchableHighlight>
           </View>
-          <Button title="Sign Out" onPress={handleSignOut}></Button>
         </ScrollView>
       </SafeAreaView>
     </>
@@ -322,7 +310,6 @@ const styles = StyleSheet.create({
   },
   currentorder: {
     fontSize: 30,
-    fontFamily: "Roboto",
   },
   text: {
     fontSize: 20,
