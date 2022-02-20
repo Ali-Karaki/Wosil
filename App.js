@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
 import { ActivityIndicator } from "react-native";
 import { useState, useEffect } from "react";
+import Sidebar from "./components/CustomDrawer";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -57,10 +58,13 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
+``
 function Root() {
   return (
-    <Drawer.Navigator initialRouteName="ManagerHomeScreen">
+    <Drawer.Navigator
+      initialRouteName="ManagerHomeScreen"
+      drawerContent={(props) => <Sidebar {...props} />}
+    >
       <Drawer.Screen name="ManagerHomeScreen" component={ManagerHomeScreen} />
     </Drawer.Navigator>
   );
