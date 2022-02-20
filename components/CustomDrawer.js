@@ -28,7 +28,7 @@ function Sidebar({ ...props }) {
       .signOut()
       .then(() => {
         navigation.replace("LoginScreen");
-        console.log("logged out");
+        // console.log("logged out");
       })
       .catch((error) => alert(error.message));
   };
