@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -26,7 +26,7 @@ import { auth } from "../firebase";
 
 import AlertBox from "react-native-easy-alert";
 
-import { Button } from "react-native";
+import { Button, BackHandler, ToastAndroid } from "react-native";
 
 const ManagerHomeScreen = () => {
   const handleSignOut = () => {
@@ -56,13 +56,27 @@ const ManagerHomeScreen = () => {
   const [DeliveryCharge, setDeliveryCharge] = useState("");
   const [scaleAnimationDialogCreateOrder, setScaleAnimationDialogCreateOrder] =
     useState(false);
+
+  useEffect(() => {
+    const unsubscribe = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackButton
+    );
+
+    return () => null;
+  }, []);
+  const handleBackButton = () => {
+    ToastAndroid.show("Cannot go back", ToastAndroid.SHORT);
+    return true;
+  };
+
   return (
     <>
       <SafeAreaView
         style={{
           flex: 1.5,
           backgroundColor: "white",
-          // paddingTop: StatusBar.currentHeight,
+          paddingTop: StatusBar.currentHeight,
         }}
       >
         <ScrollView style={{ backgroundColor: "#f1f1f1" }}>
@@ -81,6 +95,11 @@ const ManagerHomeScreen = () => {
                   justifyContent: "center",
                   marginBottom: 30,
                   marginTop: 30,
+                  borderRadius: 9,
+                  borderWidth: 2,
+                  borderColor: "black",
+                  height: "50%",
+                  width: "100%",
                 }}
               >
                 <Text style={{ color: "white" }}>
@@ -90,7 +109,7 @@ const ManagerHomeScreen = () => {
             </TouchableOpacity>
 
             <Dialog visible={scaleAnimationDialogCreateOrder}>
-              <DialogContent>
+              <DialogContent style={{ height: "90%" }}>
                 <TouchableOpacity
                   onPress={() => {
                     setScaleAnimationDialogCreateOrder(false);
@@ -104,9 +123,14 @@ const ManagerHomeScreen = () => {
                       left: 5,
                       top: 5,
                       marginBottom: 5,
+                      marginVertical: 10,
                     }}
                   >
-                    <AntDesign name="closecircle" size={30} />
+                    <AntDesign
+                      name="closecircle"
+                      style={styles.closebutton}
+                      size={30}
+                    />
                   </View>
                 </TouchableOpacity>
                 <ScrollView
@@ -251,7 +275,7 @@ const ManagerHomeScreen = () => {
               <View style={StyleSheet.MainContainer}>
                 <View
                   style={{
-                    backgroundColor: "#ff0000",
+                    backgroundColor: "purple",
                     width: "100%",
                     height: 100,
                     borderColor: "#000",
@@ -260,9 +284,9 @@ const ManagerHomeScreen = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Text style={StyleSheet.text}> Order# </Text>
-                  <Text style={StyleSheet.text}> Driver: </Text>
-                  <Text style={StyleSheet.text}> Status: </Text>
+                  <Text style={styles.text}> Order# </Text>
+                  <Text style={styles.text}> Driver: </Text>
+                  <Text style={styles.text}> Status: </Text>
                 </View>
               </View>
             </TouchableHighlight>
@@ -283,8 +307,8 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 22,
-    color: "black",
+    fontSize: 20,
+    color: "white",
     textAlign: "left",
   },
   button: {
@@ -344,5 +368,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
   },
+  closebutton: {},
 });
 export default ManagerHomeScreen;
