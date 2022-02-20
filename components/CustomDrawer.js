@@ -16,9 +16,12 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 // import { GiCarWheel } from "react-icons/gi";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
+import {
+  getManagerbyMail,
+  getAllManagers,
+} from "../services/managers.services";
 
 function Sidebar({ ...props }) {
-
   const navigation = useNavigation();
   const handleSignOut = () => {
     auth
@@ -29,9 +32,9 @@ function Sidebar({ ...props }) {
       })
       .catch((error) => alert(error.message));
   };
-
-  let currentUser = auth.currentUser;
-  console.log(currentUser);
+  // console.log(auth.currentUser.email);
+  // const manager = await getManagerbyMail(auth.currentUser.email);
+  // console.log(manager);
 
   return (
     <View style={{ flex: 1 }}>
@@ -60,7 +63,7 @@ function Sidebar({ ...props }) {
           <DrawerItemList {...props} />
           <DrawerItem
             style={{
-                marginTop: 10
+              marginTop: 10,
             }}
             label="Rate Us"
             onPress={() => props.navigation.navigate("Home")}
