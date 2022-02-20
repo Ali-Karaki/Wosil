@@ -49,7 +49,7 @@ function Sidebar({ ...props }) {
           <Text
             style={{
               marginLeft: -5,
-              color: "262626",
+              color: "#262626",
               fontSize: 18,
               marginTop: 200,
               marginBottom: -95,
