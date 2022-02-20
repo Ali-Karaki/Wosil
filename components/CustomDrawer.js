@@ -12,8 +12,6 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
-// import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-// import { GiCarWheel } from "react-icons/gi";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import {
@@ -32,9 +30,7 @@ function Sidebar({ ...props }) {
       })
       .catch((error) => alert(error.message));
   };
-  // console.log(auth.currentUser.email);
-  // const manager = await getManagerbyMail(auth.currentUser.email);
-  // console.log(manager);
+
 
   return (
     <View style={{ flex: 1 }}>

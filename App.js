@@ -65,7 +65,7 @@ function Root() {
       initialRouteName="ManagerHomeScreen"
       drawerContent={(props) => <Sidebar {...props} />}
     >
-      <Drawer.Screen name="ManagerHomeScreen" component={ManagerHomeScreen} />
+      <Drawer.Screen name="Home" component={ManagerHomeScreen} />
     </Drawer.Navigator>
   );
 }

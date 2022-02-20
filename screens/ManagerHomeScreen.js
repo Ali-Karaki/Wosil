@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
-import { useState } from "react";
+import { useState, useReducer, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import TextInput from "../components/TextInput";
-
+import Order from "../components/Order";
+import { createOrder, getAllOrders } from "../services/orders.services";
 import {
   Pressable,
   TouchableOpacity,
@@ -13,6 +14,7 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
+import { auth } from "../firebase";
 import Dialog, {
   DialogTitle,
   DialogContent,
@@ -26,7 +28,25 @@ import AlertBox from "react-native-easy-alert";
 
 import { Button } from "react-native";
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "set-orders":
+      return { ...state, orders: action.orders, ordersLoaded: true };
+    case "increase-count":
+      return { ...state, count: state.count + 1 };
+    default:
+      return { ...state };
+  }
+};
+
 const ManagerHomeScreen = () => {
+  const managerEmail = auth.currentUser.email;
+  console.log(managerEmail);
+  const [state, dispatch] = useReducer(reducer, {
+    ordersLoaded: false,
+    orders: [],
+    count: 0,
+  });
   const navigation = useNavigation();
   const [defaultAnimationDialog, setDefaultAnimationDialog] = useState(false);
   const [
@@ -42,25 +62,35 @@ const ManagerHomeScreen = () => {
   const [Width, setWidth] = useState("");
   const [StartTime, setStartTime] = useState("");
   const [EndTime, setEndTime] = useState("");
-  const [DeliveryCharge, setDeliveryCharge] = useState("");
-  const [scaleAnimationDialogCreateOrder, setScaleAnimationDialogCreateOrder] =
-    useState(false);
+  const [DeliveryCharge, setDeliveryCharge] = useState({
+    value: "",
+    error: "",
+  });
+  const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
+
+  useEffect(async () => {
+    const _orders = await getAllOrders("moe@gmail.com");
+    let __orders = [];
+    _orders.map((order) => {
+      __orders.push(order.data());
+    });
+    console.log(__orders);
+    dispatch({ type: "set-orders", orders: __orders });
+  }, []);
   return (
     <>
       <SafeAreaView
         style={{
-          flex: 1.5,
+          flex: 1,
           backgroundColor: "white",
           // paddingTop: StatusBar.currentHeight,
         }}
       >
-        <ScrollView style={{ backgroundColor: "#f1f1f1" }}>
+        <ScrollView>
           <View style={styles.MainContainer}>
-            {/* For Scale Animation Dialog */}
-
             <TouchableOpacity
               onPress={() => {
-                setScaleAnimationDialogCreateOrder(true);
+                setScaleAnimationDialog(true);
               }}
             >
               <View
@@ -69,7 +99,13 @@ const ManagerHomeScreen = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   marginBottom: 30,
+                  marginLeft: 30,
                   marginTop: 30,
+                  borderRadius: 9,
+                  borderWidth: 2,
+                  borderColor: "black",
+                  // height: "50%",
+                  width: "100%",
                 }}
               >
                 <Text style={{ color: "white" }}>
@@ -78,11 +114,17 @@ const ManagerHomeScreen = () => {
               </View>
             </TouchableOpacity>
 
-            <Dialog visible={scaleAnimationDialogCreateOrder}>
-              <DialogContent>
+            <Dialog
+              style={{
+                width: "80%",
+                // height: "200px",
+              }}
+              visible={scaleAnimationDialog}
+            >
+              <DialogContent style={{ height: "90%" }}>
                 <TouchableOpacity
                   onPress={() => {
-                    setScaleAnimationDialogCreateOrder(false);
+                    setScaleAnimationDialog(false);
                   }}
                   //icon ={ <FontAwesome5  name="window-close" size = {24} />}
                 >
@@ -95,12 +137,12 @@ const ManagerHomeScreen = () => {
                       marginBottom: 5,
                     }}
                   >
-                    <AntDesign name="closecircle" size={30} />
+                    <AntDesign name="closecircle" size={24} />
                   </View>
                 </TouchableOpacity>
                 <ScrollView
                   style={{
-                    width: 200,
+                    width: 250,
                   }}
                 >
                   <TextInput
@@ -155,15 +197,17 @@ const ManagerHomeScreen = () => {
                         PickupLocation,
                         Dropoff,
                         Price,
-                        DeliveryCharge
-                      );
+                        DeliveryCharge,
+                        24543534,
+                        "moe@gmail.com"
+                      ) && setScaleAnimationDialog(false);
                     }}
                     key="button-1"
                   />
                 </ScrollView>
               </DialogContent>
             </Dialog>
-            {/* <View
+            <View
               style={{
                 backgroundColor: "purple",
                 width: 300,
@@ -172,90 +216,39 @@ const ManagerHomeScreen = () => {
                 borderRadius: 9,
                 justifyContent: "center",
                 marginLeft: "90%",
-                height: "60%",
+                // height: "220px",
               }}
             >
-              <Text style={{ fontSize: 20, color: "white", marginLeft: 90 }}>
-                {" "}
-                Example :{" "}
-              </Text>
+              <Text
+                style={{ fontSize: 18, color: "white", marginLeft: 90 }}
+              ></Text>
               <Text style={styles.text}> Pickup Location: Moussetibeh </Text>
               <Text style={styles.text}> Dropoff Location:Bliss </Text>
               <Text style={styles.text}> Customer number: 71590832 </Text>
               <Text style={styles.text}> Length (in cm): 50 </Text>
               <Text style={styles.text}> Width(in cm):40 </Text>
               <Text style={styles.text}> Price: 50,000 LBP </Text>
-              <Text style={styles.text}> DeliverCharge: 10,000 LBP </Text>
-            </View> */}
-          </View>
-          <View>
-            <View style={styles.MainContainer}>
-              {/* For Scale Animation Dialog */}
-              <Dialog
-                onTouchOutside={() => {
-                  setScaleAnimationDialogOrderDetails(false);
-                }}
-                width={0.9}
-                visible={scaleAnimationDialogOrderDetails}
-                dialogAnimation={new ScaleAnimation()}
-                onHardwareBackPress={() => {
-                  setScaleAnimationDialogOrderDetails(false);
-                  return true;
-                }}
-                dialogTitle={
-                  <DialogTitle title="Order Details" hasTitleBar={false} />
-                }
-                actions={[
-                  <DialogButton
-                    text="DISMISS"
-                    onPress={() => {
-                      setScaleAnimationDialogOrderDetails(false);
-                    }}
-                    key="button-1"
-                  />,
-                ]}
-              >
-                <DialogContent>
-                  <View>
-                    <Text style={styles.modalText}>Driver Name</Text>
-                    <Text style={styles.modalText}>Driver Phone Number</Text>
-                    <Text style={styles.modalText}>Driver Location</Text>
-                    <Text style={styles.modalText}>Status</Text>
-                    <Button
-                      title="Close"
-                      onPress={() => {
-                        setScaleAnimationDialogOrderDetails(false);
-                      }}
-                      key="button-1"
-                    />
-                  </View>
-                </DialogContent>
-              </Dialog>
+              <Text style={styles.text}> Delivery Charge: 10,000 LBP </Text>
             </View>
-
-            <TouchableHighlight
-              // style={styles.justifyContent}
-              onPress={() => setScaleAnimationDialogOrderDetails(true)}
-            >
-              <View style={StyleSheet.MainContainer}>
-                <View
-                  style={{
-                    backgroundColor: "#ff0000",
-                    width: "100%",
-                    height: 100,
-                    borderColor: "#000",
-                    borderWidth: 2,
-                    borderRadius: 9,
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text style={StyleSheet.text}> Order# </Text>
-                  <Text style={StyleSheet.text}> Driver: </Text>
-                  <Text style={StyleSheet.text}> Status: </Text>
-                </View>
-              </View>
-            </TouchableHighlight>
           </View>
+          <View
+            style={{
+              marginTop: "20%",
+              fontWeight: 900,
+
+              marginRight: "35%",
+            }}
+          >
+            <Text style={styles.currentorder}>Current Orders :</Text>
+          </View>
+
+          {state.ordersLoaded ? (
+            state.orders.map((order) => (
+              <Order key={order.phoneNumberCustomer} order={order} />
+            ))
+          ) : (
+            <></>
+          )}
         </ScrollView>
       </SafeAreaView>
     </>
@@ -263,33 +256,6 @@ const ManagerHomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  MainContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f1f1f1",
-  },
-
-  text: {
-    fontSize: 22,
-    color: "black",
-    textAlign: "left",
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-
-  textStyle: {
-    color: "black",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
   MainContainer: {
     marginTop: 50,
     flex: 1,
@@ -310,9 +276,14 @@ const styles = StyleSheet.create({
   },
   currentorder: {
     fontSize: 30,
+    fontFamily: "Roboto",
+  },
+  text1: {
+    fontSize: 10,
+    color: "white",
   },
   text: {
-    fontSize: 20,
+    fontSize: 18,
     color: "white",
   },
   button: {
