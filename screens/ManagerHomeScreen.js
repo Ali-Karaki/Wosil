@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState, useReducer, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, View } from "react-native";
+import { RefreshControl } from "react-native";
+
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import TextInput from "../components/TextInput";
@@ -27,6 +29,7 @@ import Dialog, {
 import AlertBox from "react-native-easy-alert";
 
 import { Button } from "react-native";
+import { log } from "react-native-reanimated";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -41,7 +44,6 @@ const reducer = (state, action) => {
 
 const ManagerHomeScreen = () => {
   const managerEmail = auth.currentUser.email;
-  console.log(managerEmail);
   const [state, dispatch] = useReducer(reducer, {
     ordersLoaded: false,
     orders: [],
@@ -69,7 +71,7 @@ const ManagerHomeScreen = () => {
   const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
 
   useEffect(async () => {
-    const _orders = await getAllOrders("moe@gmail.com");
+    const _orders = await getAllOrders(managerEmail);
     let __orders = [];
     _orders.map((order) => {
       __orders.push(order.data());
@@ -77,16 +79,32 @@ const ManagerHomeScreen = () => {
     console.log(__orders);
     dispatch({ type: "set-orders", orders: __orders });
   }, []);
+
+  const [color, changeColor] = useState("red");
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      changeColor("green");
+      setRefreshing(false);
+    }, 2000);
+  };
   return (
     <>
       <SafeAreaView
         style={{
           flex: 1,
           backgroundColor: "white",
-          // paddingTop: StatusBar.currentHeight,
+          paddingTop: StatusBar.currentHeight,
         }}
       >
-        <ScrollView>
+       
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.MainContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -99,18 +117,15 @@ const ManagerHomeScreen = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   marginBottom: 30,
-                  marginLeft: 30,
-                  marginTop: 30,
+                  marginLeft: "100%",
                   borderRadius: 9,
                   borderWidth: 2,
-                  borderColor: "black",
-                  // height: "50%",
+                  borderColor: "purple",
+                  height: "50%",
                   width: "100%",
                 }}
               >
-                <Text style={{ color: "white" }}>
-                  Click Here to Create a New Order
-                </Text>
+                <Text style={{ color: "white" }}>Create New Order</Text>
               </View>
             </TouchableOpacity>
 
@@ -149,43 +164,43 @@ const ManagerHomeScreen = () => {
                     label="Pick Up Location"
                     value={PickupLocation.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setPickup({ value: text })}
+                    onChangeText={(text) => setPickup(text)}
                   />
                   <TextInput
                     label="Drop off Location"
                     value={Dropoff.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setDropoff({ value: text })}
+                    onChangeText={(text) => setDropoff(text)}
                   />
                   <TextInput
                     label="Customer Number"
                     value={CustomerNum.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setCustomerNum({ value: text })}
+                    onChangeText={(text) => setCustomerNum(parseInt(text))}
                   />
                   <TextInput
                     label="Length"
                     value={Length.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setLength({ value: text })}
+                    onChangeText={(text) => setLength(parseInt(text))}
                   />
                   <TextInput
                     label="Width"
                     value={Width.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setWidth({ value: text })}
+                    onChangeText={(text) => setWidth(parseInt(text))}
                   />
                   <TextInput
                     label="Price"
                     value={Price.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setPrice({ value: text })}
+                    onChangeText={(text) => setPrice(parseInt(text))}
                   />
                   <TextInput
                     label="Delivery Charge"
                     value={DeliveryCharge.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setDeliveryCharge({ value: text })}
+                    onChangeText={(text) => setDeliveryCharge(parseInt(text))}
                   />
 
                   <Button
@@ -199,47 +214,16 @@ const ManagerHomeScreen = () => {
                         Price,
                         DeliveryCharge,
                         24543534,
-                        "moe@gmail.com"
-                      ) && setScaleAnimationDialog(false);
+                        managerEmail
+                      ) &&
+                        setScaleAnimationDialog(false) &&
+                        getAllOrders(managerEmail);
                     }}
                     key="button-1"
                   />
                 </ScrollView>
               </DialogContent>
             </Dialog>
-            <View
-              style={{
-                backgroundColor: "purple",
-                width: 300,
-                borderColor: "#000",
-                borderWidth: 10,
-                borderRadius: 9,
-                justifyContent: "center",
-                marginLeft: "90%",
-                // height: "220px",
-              }}
-            >
-              <Text
-                style={{ fontSize: 18, color: "white", marginLeft: 90 }}
-              ></Text>
-              <Text style={styles.text}> Pickup Location: Moussetibeh </Text>
-              <Text style={styles.text}> Dropoff Location:Bliss </Text>
-              <Text style={styles.text}> Customer number: 71590832 </Text>
-              <Text style={styles.text}> Length (in cm): 50 </Text>
-              <Text style={styles.text}> Width(in cm):40 </Text>
-              <Text style={styles.text}> Price: 50,000 LBP </Text>
-              <Text style={styles.text}> Delivery Charge: 10,000 LBP </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: "20%",
-              fontWeight: 900,
-
-              marginRight: "35%",
-            }}
-          >
-            <Text style={styles.currentorder}>Current Orders :</Text>
           </View>
 
           {state.ordersLoaded ? (

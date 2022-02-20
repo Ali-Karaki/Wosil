@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { AppRegistry } from "react-native-web";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,7 +18,7 @@ import SignupScreen from "./screens/SignupScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
-import { ActivityIndicator } from "react-native";
+import {} from "react-native";
 import { useState, useEffect } from "react";
 import Sidebar from "./components/CustomDrawer";
 
@@ -29,6 +37,10 @@ export default function App() {
       }
     });
   };
+
+  if(isLoggedIn) {
+    navigator.navigate('ManagerHomeScreen');
+  }
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -58,7 +70,6 @@ export default function App() {
     </NavigationContainer>
   );
 }
-``
 function Root() {
   return (
     <Drawer.Navigator

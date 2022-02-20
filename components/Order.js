@@ -7,7 +7,7 @@ const Order = ({ order }) => {
     <View
       style={{
         backgroundColor: "purple",
-        borderColor: "#000",
+        borderColor: "purple",
         borderWidth: 10,
         borderRadius: 9,
         justifyContent: "center",
