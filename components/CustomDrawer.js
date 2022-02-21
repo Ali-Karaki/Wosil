@@ -1,20 +1,11 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
 
-  TouchableOpacity,
-} from "react-native";
-import {
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from "@react-navigation/drawer";
+import {View,Text,ImageBackground,TouchableOpacity,} from "react-native";
+import {DrawerContentScrollView,DrawerItem,DrawerItemList,} from "@react-navigation/drawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-
+import {GiCarWheel} from "react-icons/gi";
 
 function Sidebar({ ...props }) {
   const navigation = useNavigation();
@@ -30,43 +21,38 @@ function Sidebar({ ...props }) {
 
 
   return (
+    
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView
-        {...props}
-        contentContainerStyle={{ backgroundColor: "#8200d6" }}
-      >
+    
         <ImageBackground
-          source={require("../assets/icon.png")}
-          style={{ height: "100%", marginTop: -20 }}
+          source={require("../assets/icon.jpg")}
+          style={{ height: 250 }}
         >
-          <Text
-            style={{
-              marginLeft: -5,
-              color: "#262626",
-              fontSize: 18,
-              marginTop: 200,
-              marginBottom: -95,
-              marginLeft: 5,
-            }}
-          >
-            Hello
-          </Text>
+          
+
         </ImageBackground>
-        <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 10 }}>
+        <DrawerContentScrollView
+        {...props}
+        contentContainerStyle={{ backgroundColor: "white" }}
+      >
+        <View style={{ flex: 1, marginTop:-20,backgroundColor: "#fff",marginLeft:5}}>
           <DrawerItemList {...props} />
           <DrawerItem
             style={{
-              marginTop: 10,
+              marginTop: 40,
             }}
-            label="Rate Us"
+            options = {{
+              drawerIcon: ({color}) => (<GiCarWheel name="GiCarWheel" size={22} color = {color} />)
+            }}
+            label="Drivers"
             onPress={() => props.navigation.navigate("Home")}
           />
         </View>
-      </DrawerContentScrollView>
-      <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
+      
+      <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" ,marginTop:330}}>
         <TouchableOpacity
           onPress={handleSignOut}
-          style={{ paddingVertical: 15 }}
+          style={{ paddingVertical: 15,marginBottom:-20 }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons name="exit-outline" size={22} />
@@ -79,9 +65,13 @@ function Sidebar({ ...props }) {
               Sign Out
             </Text>
           </View>
+
         </TouchableOpacity>
+        
       </View>
+      </DrawerContentScrollView>
     </View>
+    
   );
 }
 

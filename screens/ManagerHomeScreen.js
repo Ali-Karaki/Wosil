@@ -1,14 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
 import React,{ useState, useReducer, useEffect } from "react";
-import { StyleSheet, Text, View,RefreshControl,TouchableOpacity,SafeAreaView,ScrollView,StatusBar,Button } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { Text,StyleSheet,Image,TouchableOpacity,SafeAreaView,ScrollView,StatusBar,Button } from "react-native";
 import Order from "../components/Order";
-import { createOrder, getAllOrders } from "../services/orders.services";
+import  getAllOrders  from "../services/orders.services";
 import { auth } from "../firebase";
-import {Dialog, DialogContent,} from "react-native-popup-dialog";
 import DialogInput from "../components/DialogInput";
+import { Header } from 'react-native-elements';
 
-
+import { DrawerActions } from "@react-navigation/native";
 const reducer = (state, action) => {
   switch (action.type) {
     case "set-orders":
@@ -28,49 +27,36 @@ const ManagerHomeScreen = () => {
     count: 0,
   });
   const navigation = useNavigation();
-  const [defaultAnimationDialog, setDefaultAnimationDialog] = useState(false);
-  const [
-    scaleAnimationDialogOrderDetails,
-    setScaleAnimationDialogOrderDetails,
-  ] = useState(false);
-  const [slideAnimationDialog, setSlideAnimationDialog] = useState(false);
-  const [PickupLocation, setPickup] = useState("");
-  const [Dropoff, setDropoff] = useState("");
-  const [CustomerNum, setCustomerNum] = useState("");
-  const [Price, setPrice] = useState("");
-  const [Length, setLength] = useState("");
-  const [Width, setWidth] = useState("");
-  const [StartTime, setStartTime] = useState("");
-  const [EndTime, setEndTime] = useState("");
-  const [DeliveryCharge, setDeliveryCharge] = useState({
-    value: "",
-    error: "",
-  });
-  const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
-
   useEffect(async () => {
-    const _orders = await getAllOrders(managerEmail);
+    const _orders = await getAllOrders("mia59@mail.aub.edu");
+   
     let __orders = [];
     _orders.map((order) => {
       __orders.push(order.data());
     });
     console.log(__orders);
+    console.log("ekht hashem");
     dispatch({ type: "set-orders", orders: __orders });
   }, []);
 
   const [color, changeColor] = useState("red");
-  const [refreshing, setRefreshing] = React.useState(false);
+  // const [refreshing, setRefreshing] = React.useState(false);
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      changeColor(color);
-      setRefreshing(false);
-    }, 2000);
-  };
+  // const onRefresh = () => {
+  //   setRefreshing(true);
+  //   setTimeout(() => {
+  //     changeColor(color);
+  //     setRefreshing(false);
+  //   }, 2000);
+  // };
   return (
     <>
-     
+       <Header containerStyle={{ backgroundColor: 'white', }}>                   
+        <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} >
+        <Image source={require('../assets/drawer.jpg')} style={{ width: 50, height: 50, tintColor: 'black' }} />                    
+        </TouchableOpacity>               
+        </Header>
+
       <SafeAreaView
         style={{
           flex: 1,
@@ -78,102 +64,17 @@ const ManagerHomeScreen = () => {
           paddingTop: StatusBar.currentHeight,
         }}
       >
-       
-        <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <View >
-            <TouchableOpacity
-              onPress={() => {
-                setScaleAnimationDialog(true);
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: "purple",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 30,
-                  marginLeft: "100%",
-                  borderRadius: 9,
-                  borderWidth: 2,
-                  borderColor: "purple",
-                  height: "50%",
-                  width: "100%",
-                }}
-              >
-                <Text style={{ color: "white" }}>Create New Order</Text>
-              </View>
-            </TouchableOpacity>
-
-            <Dialog
-              style={{
-                width: "80%",
-                // height: "200px",
-              }}
-              visible={scaleAnimationDialog}
-            >
-              <DialogContent style={{ height: "90%" }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setScaleAnimationDialog(false);
-                  }}
-                  
-                >
-                  <View
-                    style={{
-                      alignSelf: "flex-end",
-                      marginTop: 3,
-                      left: 5,
-                      top: 5,
-                      marginBottom: 5,
-                    }}
-                  >
-                    <AntDesign name="closecircle" size={24} />
-                  </View>
-                </TouchableOpacity>
-                <ScrollView
-                  style={{
-                    width: 250,
-                  }}
-                >
-                  <DialogInput/>
-                  <Button
-                    title="Create"
-                    onPress={() => {
-                      createOrder(
-                        Width,
-                        Length,
-                        PickupLocation,
-                        Dropoff,
-                        Price,
-                        DeliveryCharge,
-                        24543534,
-                        managerEmail
-                      ) &&
-                        setScaleAnimationDialog(false) &&
-                        getAllOrders(managerEmail);
-                        document.location.reload()
-                   }}
-                    key="button-1"
-                  />
-                </ScrollView>
-              </DialogContent>
-            
-            </Dialog>
-          </View>
-
+          <DialogInput/>
+        <ScrollView>
           {state.ordersLoaded ? (
             state.orders.map((order) => (
               <Order key={order.phoneNumberCustomer} order={order} />
             ))
           ) : (
-            <></>
+            <><Text>Hello</Text></>
           )}
         </ScrollView>
-       
+        
       </SafeAreaView>
     </>
   );
