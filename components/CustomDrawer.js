@@ -3,7 +3,7 @@ import {
   View,
   Text,
   ImageBackground,
-  Image,
+
   TouchableOpacity,
 } from "react-native";
 import {
@@ -14,10 +14,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import {
-  getManagerbyMail,
-  getAllManagers,
-} from "../services/managers.services";
+
 
 function Sidebar({ ...props }) {
   const navigation = useNavigation();
@@ -26,7 +23,7 @@ function Sidebar({ ...props }) {
       .signOut()
       .then(() => {
         navigation.replace("LoginScreen");
-        // console.log("logged out");
+        
       })
       .catch((error) => alert(error.message));
   };

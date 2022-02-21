@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, StyleSheet, View, StatusBar } from "react-native";
+import { TouchableOpacity, StyleSheet, View, StatusBar,SafeAreaView,ScrollView } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import TextInput from "../components/TextInput";
-import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import { SafeAreaView } from "react-native";
-import { ScrollView } from "react-native";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -41,7 +38,7 @@ export default function LoginScreen() {
           const user = userCredentials.user;
           navigation.navigate("Root");
 
-          // console.log("Logged in with:", user);
+          
         })
         .catch((error) => alert(error.message));
     }
