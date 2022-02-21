@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity, StyleSheet, View, StatusBar } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -10,25 +10,41 @@ import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
+import { auth } from "../firebase";
+import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native";
 import { ScrollView } from "react-native";
-import { StatusBar } from "react-native";
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: "", error: "" });
-  const [password, setPassword] = useState({ value: "", error: "" });
 
-  const onLoginPressed = () => {
+export default function LoginScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("Root");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const handleLogin = () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
     if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError });
-      setPassword({ ...password, error: passwordError });
-      return;
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          navigation.navigate("Root");
+
+          // console.log("Logged in with:", user);
+        })
+        .catch((error) => alert(error.message));
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "ManagerHomeScreen" }],
-    });
   };
 
   return (
@@ -43,12 +59,12 @@ export default function LoginScreen({ navigation }) {
         <Background>
           {/* <BackButton goBack={navigation.goBack} /> */}
           <Logo />
-          <Header>Welcome back.</Header>
+          <Header>Welcome back!</Header>
           <TextInput
             label="Email"
             returnKeyType="next"
             value={email.value}
-            onChangeText={(text) => setEmail({ value: text, error: "" })}
+            onChangeText={(text) => setEmail(text)}
             error={!!email.error}
             errorText={email.error}
             autoCapitalize="none"
@@ -60,7 +76,7 @@ export default function LoginScreen({ navigation }) {
             label="Password"
             returnKeyType="done"
             value={password.value}
-            onChangeText={(text) => setPassword({ value: text, error: "" })}
+            onChangeText={(text) => setPassword(text)}
             error={!!password.error}
             errorText={password.error}
             secureTextEntry
@@ -72,7 +88,7 @@ export default function LoginScreen({ navigation }) {
               <Text style={styles.forgot}>Forgot your password?</Text>
             </TouchableOpacity>
           </View>
-          <Button mode="contained" onPress={onLoginPressed}>
+          <Button mode="contained" onPress={handleLogin}>
             Login
           </Button>
           <View style={styles.row}>

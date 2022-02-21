@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
+import React, { useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { View } from "react-native";
+import { StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -21,22 +23,33 @@ import {
 } from "../services/managers.services";
 import firebase from "firebase";
 import { app } from "../firebase.js";
+import { auth } from "../firebase";
 
-export default function SignupScreen({ navigation }) {
-  addManager(name, email, comName, phoneNbr);
+export default function SignupScreen() {
+  const navigation = useNavigation();
+
   const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
-  const [comName, setComName] = useState({ value: "", error: "" });
-  const [phoneNbr, setPhoneNbr] = useState({ value: "", error: "" });
+  const [companyName, setComName] = useState({ value: "", error: "" });
+  const [phoneNumber, setPhoneNbr] = useState({ value: "", error: "" });
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("Root");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   const onSignUpPressed = () => {
     const nameError = nameValidator(name.value);
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
-    const comNameError = nameValidator(comName.value);
-    const phoneNbrError = nameValidator(phoneNbr.value);
-
+    const comNameError = nameValidator(companyName.value);
+    const phoneNbrError = nameValidator(phoneNumber.value);
     if (
       emailError ||
       passwordError ||
@@ -47,14 +60,23 @@ export default function SignupScreen({ navigation }) {
       setName({ ...name, error: nameError });
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
-      setComName({ ...comName, error: comNameError });
-      setPhoneNbr({ ...phoneNbr, error: phoneNbrError });
+      setComName({ ...companyName, error: comNameError });
+      setPhoneNbr({ ...phoneNumber, error: phoneNbrError });
       return;
+    } else {
+      handleSignUp();
+      addManager(name.value, email.value, companyName.value, phoneNumber.value);
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "ManagerHomeScreen" }],
-    });
+  };
+
+  const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email.value, password.value)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        // console.log("Registered with:", user);
+      })
+      .catch((error) => alert(error.message));
   };
 
   return (
@@ -81,18 +103,18 @@ export default function SignupScreen({ navigation }) {
           <TextInput
             label="Company's Name"
             returnKeyType="next"
-            value={comName.value}
+            value={companyName.value}
             onChangeText={(text) => setComName({ value: text })}
-            error={!!comName.error}
-            errorText={comName.error}
+            error={!!companyName.error}
+            errorText={companyName.error}
           />
           <TextInput
             label="Phone Number"
             returnKeyType="next"
-            value={phoneNbr.value}
+            value={phoneNumber.value}
             onChangeText={(text) => setPhoneNbr({ value: text })}
-            error={!!phoneNbr.error}
-            errorText={phoneNbr.error}
+            error={!!phoneNumber.error}
+            errorText={phoneNumber.error}
           />
           <TextInput
             label="Email"

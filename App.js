@@ -1,50 +1,83 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "./screens/LoginScreen";
-import SignupScreen from "./screens/SignupScreen";
-import StartScreen from "./screens/StartScreen";
-import ResetPasswordScreen from "./screens/ResetPasswordScreen";
-
-import ManagerHomeScreen from "./screens/ManagerHomeScreen";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { AppRegistry } from "react-native-web";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+import StartScreen from "./screens/StartScreen";
+import LoginScreen from "./screens/LoginScreen";
+import ManagerHomeScreen from "./screens/ManagerHomeScreen";
+import SignupScreen from "./screens/SignupScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { auth } from "./firebase";
+import {} from "react-native";
+import { useState, useEffect } from "react";
+import Sidebar from "./components/CustomDrawer";
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const authenticateUser = () => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    });
+  };
+
+  if(isLoggedIn) {
+    navigator.navigate('ManagerHomeScreen');
+  }
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      authenticateUser;
+    }
+  }, [isLoggedIn]);
+
+  if (isLoggedIn === null) return <ActivityIndicator />;
+
   return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="StartScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="LoginScreen"
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="SignupScreen"
-            component={SignupScreen}
-          />
-          <Stack.Screen
-            //options={{ headerShown: false }}
-            name="ManagerHomeScreen"
-            component={ManagerHomeScreen}
-          />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="StartScreen"
+      >
+        <Stack.Screen name="Root" component={Root} />
+        <Stack.Screen name="StartScreen" component={StartScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen
+          name="ResetPasswordScreen"
+          component={ResetPasswordScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+function Root() {
+  return (
+    <Drawer.Navigator
+      initialRouteName="ManagerHomeScreen"
+      drawerContent={(props) => <Sidebar {...props} />}
+    >
+      <Drawer.Screen name="Home" component={ManagerHomeScreen} />
+    </Drawer.Navigator>
   );
 }
 const styles = StyleSheet.create({});

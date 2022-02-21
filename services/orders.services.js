@@ -24,13 +24,13 @@ async function getAllOrders(mailOfManager) {
  * async function to create and add an order to the database
  * @param {Number} dimensionLength 
  * @param {Number} dimensionWidth 
- * @param {String} city 
- * @param {String} street 
+ * @param {String} pickup 
+ * @param {String} dropoff 
  * @param {Number} price 
  * @param {Number} deliveryCharge 
  * @returns {firebase.firestore.DocumentReference<firebase.firestore.DocumentData>} the created order
  */
-async function createOrder(dimensionLength, dimensionWidth, city, street, price,deliveryCharge,phoneNumberCustomer,mailOfManager) {
+async function createOrder(dimensionLength, dimensionWidth, pickup, dropoff, price,deliveryCharge,phoneNumberCustomer,mailOfManager) {
     const manager = await getManagerbyMail(mailOfManager);
     const id = getManagerId(manager);
     const data = {
@@ -39,8 +39,8 @@ async function createOrder(dimensionLength, dimensionWidth, city, street, price,
             "width": dimensionWidth,
         },
         "location": {
-            "city": city,
-            "street": street,
+            "pickup": pickup,
+            "dropoff": dropoff,
         },
         "price": price,
         "deliveryCharge" : deliveryCharge,

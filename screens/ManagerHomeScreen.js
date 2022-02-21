@@ -1,21 +1,22 @@
 import { useNavigation } from "@react-navigation/core";
-import React,{ useState ,useEffect, useReducer} from "react";
-import firebase from "firebase";
-import { app } from "../firebase.js";
-import { Alert, Modal, StyleSheet, Text, View,Pressable,
+import { useState, useReducer, useEffect } from "react";
+import { Alert, Modal, StyleSheet, Text, View } from "react-native";
+import { RefreshControl } from "react-native";
 
-        TouchableOpacity,
-        SafeAreaView,
-        TouchableHighlight,
-        ScrollView,
-        StatusBar,
-        Button,
-      } from "react-native";
-
-import TextInput from "../components/TextInput"
-import {getAllOrders,createOrder} from "../services/orders.services.js";
-
-
+import React from "react";
+import { AntDesign } from "@expo/vector-icons";
+import TextInput from "../components/TextInput";
+import Order from "../components/Order";
+import { createOrder, getAllOrders } from "../services/orders.services";
+import {
+  Pressable,
+  TouchableOpacity,
+  SafeAreaView,
+  TouchableHighlight,
+  ScrollView,
+  StatusBar,
+} from "react-native";
+import { auth } from "../firebase";
 import Dialog, {
   DialogTitle,
   DialogContent,
@@ -25,176 +26,204 @@ import Dialog, {
   ScaleAnimation,
 } from "react-native-popup-dialog";
 
-import { auth } from "../firebase";
 import AlertBox from "react-native-easy-alert";
 import Order from "../components/Order";  
 import { AntDesign } from "@expo/vector-icons";
 
 
-const reducer = (state, action) => {
-  switch(action.type) {
-    case 'set-orders':
-      return { ...state, orders: action.orders, ordersLoaded: true }
-    default:
-      return {...state}
-  }
-}
 
+
+import { Button } from "react-native";
+import { log } from "react-native-reanimated";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "set-orders":
+      return { ...state, orders: action.orders, ordersLoaded: true };
+    case "increase-count":
+      return { ...state, count: state.count + 1 };
+    default:
+      return { ...state };
+  }
+};
 
 const ManagerHomeScreen = () => {
+  const managerEmail = auth.currentUser.email;
   const [state, dispatch] = useReducer(reducer, {
     ordersLoaded: false,
     orders: [],
-    count: 0
-  })
-  const [PickupLocation, setPickup] = useState({ value: '' })
-  const [Dropoff, setDropoff] = useState({ value: '' })
-  const [CustomerNum, setCustomerNum] = useState({ value: '' })
-  const [Price,setPrice] =useState({ value: '' })
-  const [Length,setLength] =useState({ value: '' })
-  const [Width,setWidth] =useState({ value: '' })
-  const [StartTime,setStartTime] =useState({ value: '' })
-  const [EndTime,setEndTime] =useState({ value: '' })
-  const [DeliveryCharge,setDeliveryCharge] =useState({ value: '' })
+    count: 0,
+  });
+  const navigation = useNavigation();
+  const [defaultAnimationDialog, setDefaultAnimationDialog] = useState(false);
+  const [
+    scaleAnimationDialogOrderDetails,
+    setScaleAnimationDialogOrderDetails,
+  ] = useState(false);
+  const [slideAnimationDialog, setSlideAnimationDialog] = useState(false);
+  const [PickupLocation, setPickup] = useState("");
+  const [Dropoff, setDropoff] = useState("");
+  const [CustomerNum, setCustomerNum] = useState("");
+  const [Price, setPrice] = useState("");
+  const [Length, setLength] = useState("");
+  const [Width, setWidth] = useState("");
+  const [StartTime, setStartTime] = useState("");
+  const [EndTime, setEndTime] = useState("");
+  const [DeliveryCharge, setDeliveryCharge] = useState({
+    value: "",
+    error: "",
+  });
   const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
+
   useEffect(async () => {
-    const _orders = await getAllOrders("moe@gmail.com");
+    const _orders = await getAllOrders(managerEmail);
     let __orders = [];
-    _orders.forEach(order => { __orders.push(order.data()) });
-    dispatch({ type: 'set-orders', orders: __orders });
+    _orders.map((order) => {
+      __orders.push(order.data());
+    });
+    console.log(__orders);
+    dispatch({ type: "set-orders", orders: __orders });
   }, []);
- 
+
+  const [color, changeColor] = useState("red");
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      changeColor("green");
+      setRefreshing(false);
+    }, 2000);
+  };
   return (
     <>
      
       <SafeAreaView
         style={{
-          flex: 1.5,
-          backgroundColor:"white",
+          flex: 1,
+          backgroundColor: "white",
           paddingTop: StatusBar.currentHeight,
         }}
       >
-     
-        <ScrollView >
+       
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.MainContainer}>
-            {/* For Scale Animation Dialog */}
-        
-           
-            <TouchableOpacity onPress={() => {setScaleAnimationDialog(true)}}>
-                  <View style={{
-                      backgroundColor: 'purple',
-                      alignItems: 'center', 
-                      justifyContent: 'center',
-                      borderRadius: 60,
-                      paddingTop:30,
-                      paddingBottom:30,
-                      marginLeft:40,
-                      paddingLeft:5,
-                      paddingRight:5,
-                      marginRight: -150,
-                      marginBottom:30,
-                      marginTop:80,
-
-                    }}
-                  >
-                    <Text style={{ color: 'white'}}>Click Here to Create a New Order</Text>
-                  </View>
-                </TouchableOpacity>
-                
-                
-            <Dialog
-            style = {{
-              width : "80%",
-              height : "40%"
-            }}
-             
-              visible={scaleAnimationDialog}
-
+            <TouchableOpacity
+              onPress={() => {
+                setScaleAnimationDialog(true);
+              }}
             >
-         
-              <DialogContent >
-              <TouchableOpacity
-                  onPress={() => { setScaleAnimationDialog(false)}}
+              <View
+                style={{
+                  backgroundColor: "purple",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 30,
+                  marginLeft: "100%",
+                  borderRadius: 9,
+                  borderWidth: 2,
+                  borderColor: "purple",
+                  height: "50%",
+                  width: "100%",
+                }}
+              >
+                <Text style={{ color: "white" }}>Create New Order</Text>
+              </View>
+            </TouchableOpacity>
+
+            <Dialog
+              style={{
+                width: "80%",
+                // height: "200px",
+              }}
+              visible={scaleAnimationDialog}
+            >
+              <DialogContent style={{ height: "90%" }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setScaleAnimationDialog(false);
+                  }}
                   //icon ={ <FontAwesome5  name="window-close" size = {24} />}
                 >
-                    <View 
-                        style = {{
-                          alignSelf: 'flex-end',
-                          marginTop: 3,
-                          left: 5,
-                          top: 5, 
-                          marginBottom:5,
-                        }}
-                      >
-                        <AntDesign
-                          name = "closecircle"
-                          size = {24}
-                          />
-                    </View>
-                  </TouchableOpacity> 
-                <ScrollView
-                      style={{
-                        
-                        width:250,
-                      }}
+                  <View
+                    style={{
+                      alignSelf: "flex-end",
+                      marginTop: 3,
+                      left: 5,
+                      top: 5,
+                      marginBottom: 5,
+                    }}
                   >
-
-                  <TextInput 
+                    <AntDesign name="closecircle" size={24} />
+                  </View>
+                </TouchableOpacity>
+                <ScrollView
+                  style={{
+                    width: 250,
+                  }}
+                >
+                  <TextInput
                     label="Pick Up Location"
                     value={PickupLocation.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setPickup({ value: text })}
-                   
+                    onChangeText={(text) => setPickup(text)}
                   />
-                   <TextInput 
+                  <TextInput
                     label="Drop off Location"
                     value={Dropoff.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setDropoff({ value: text })}
-                   
+                    onChangeText={(text) => setDropoff(text)}
                   />
-                   <TextInput 
+                  <TextInput
                     label="Customer Number"
                     value={CustomerNum.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setCustomerNum({ value: text })}
-                   
+                    onChangeText={(text) => setCustomerNum(parseInt(text))}
                   />
-                   <TextInput 
+                  <TextInput
                     label="Length"
                     value={Length.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setLength({ value: text })}
-                   
+                    onChangeText={(text) => setLength(parseInt(text))}
                   />
-                  <TextInput 
+                  <TextInput
                     label="Width"
                     value={Width.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setWidth({ value: text })}
-                   
+                    onChangeText={(text) => setWidth(parseInt(text))}
                   />
-                  <TextInput 
+                  <TextInput
                     label="Price"
                     value={Price.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setPrice({ value: text })}
-                   
+                    onChangeText={(text) => setPrice(parseInt(text))}
                   />
-                     <TextInput 
+                  <TextInput
                     label="Delivery Charge"
                     value={DeliveryCharge.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setDeliveryCharge({ value: text })}
-                   
+                    onChangeText={(text) => setDeliveryCharge(parseInt(text))}
                   />
-              
-                 
+
                   <Button
                     title="Create"
                     onPress={() => {
-                      createOrder(Width,Length,PickupLocation,Dropoff,Price,DeliveryCharge) 
-                     
+                      createOrder(
+                        Width,
+                        Length,
+                        PickupLocation,
+                        Dropoff,
+                        Price,
+                        DeliveryCharge,
+                        24543534,
+                        managerEmail
+                      ) &&
+                        setScaleAnimationDialog(false) &&
+                        getAllOrders(managerEmail);
                     }}
                     key="button-1"
                   />
@@ -202,46 +231,15 @@ const ManagerHomeScreen = () => {
               </DialogContent>
             
             </Dialog>
-            <View
-                style={{
-                  backgroundColor: "purple",
-                  width: 300,
-                  borderColor: "#000",
-                  borderWidth: 10,
-                  borderRadius: 9,
-                  justifyContent: "center",
-                  marginLeft:"90%",
-                  height: "60%",
-                }}
-              >
-                 <Text style={{ fontSize: 20,color: "white",marginLeft:90}}> Example : </Text>
-                <Text style={styles.text}> Pickup Location: Moussetibeh </Text>
-                <Text style={styles.text}> Dropoff Location:Bliss  </Text>
-                <Text style={styles.text}> Customer number: 71590832 </Text>
-                <Text style={styles.text}> Length (in cm): 50 </Text>
-                <Text style={styles.text}> Width(in cm):40  </Text>
-                <Text style={styles.text}> Price: 50,000 LBP </Text>
-                <Text style={styles.text}> DeliverCharge: 10,000 LBP </Text>
-
-              </View>
           </View>
-          <View style={{
-            marginTop:"20%",
-            fontWeight:900,
-            borderRadius: 50,
-            marginRight: "35%",
-          }}>
-            <Text style={styles.currentorder}>Current Orders :</Text>
-          </View> 
 
-          <View>
-          {state.ordersLoaded ? state.orders.forEach(order => {
-            console.log(order);
-            state.count = state.count + 1;
-            <Order key={state.count} order={order} />
-          }) : <Text>No orders yet</Text>}
-          </View>
-          
+          {state.ordersLoaded ? (
+            state.orders.map((order) => (
+              <Order key={order.phoneNumberCustomer} order={order} />
+            ))
+          ) : (
+            <></>
+          )}
         </ScrollView>
        
       </SafeAreaView>
@@ -255,33 +253,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width : "50%",
-    
+    width: "50%",
   },
-  appButtonContainer:{
-    alignItems: 'center',
-    justifyContent: 'center',
+  appButtonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'red',
-    marginLeft:"70%",
-    marginBottom:30,
-   
+    backgroundColor: "red",
+    marginLeft: "70%",
+    marginBottom: 30,
   },
-  currentorder:{
+  currentorder: {
     fontSize: 30,
-    fontFamily:"Roboto",
-    
-    
-    
+    fontFamily: "Roboto",
+  },
+  text1: {
+    fontSize: 10,
+    color: "white",
   },
   text: {
-    fontSize: 20,
+    fontSize: 18,
     color: "white",
-  
-
   },
   button: {
     borderRadius: 20,
