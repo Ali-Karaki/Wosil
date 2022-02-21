@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native-web';
 const Order = ({ order }) => {
     return (
         <>
-            <Text>HELLO</Text>
+            
             <Text style={styles.text}> Pickup Location: {order.location.city} </Text>
             <Text style={styles.text}> Dropoff Location: {order.location.street}  </Text>
             <Text style={styles.text}> Customer number: 71371576 </Text>
