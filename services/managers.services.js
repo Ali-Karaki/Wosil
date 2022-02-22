@@ -5,7 +5,7 @@ import { getAllDrivers } from "./drivers.services.js";
 const db = firebase.firestore();
 
 /**
- * async function to get all manager
+ * async function to get all managers
  * @returns {Array.<firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>>} array of all managers
  */
 async function getAllManagers() {
@@ -18,9 +18,9 @@ async function getAllManagers() {
 }
 
 /**
- * 
+ * async function to get a manager using his mail
  * @param {String} mail 
- * @returns {snapshot: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>}
+ * @returns {snapshot: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>} manager
  */
 async function getManagerbyMail(mail) {
     const query = await db.collection('managers').where('mail', '==', mail).get();
@@ -33,11 +33,21 @@ async function getManagerbyMail(mail) {
     }
 }
 
+/**
+ * function that returns the manager doc Id
+ * @param {snapshot: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>} manager 
+ * @returns {String} managers document Id
+ */
 function getManagerId(manager) {
     return manager.id;
 }
 
-function getManagerData(manager){
+/**
+ * function that returns the data of the manager
+ * @param {snapshot: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>} manager 
+ * @returns {JSON} Json object representing the data of the manager
+ */
+function getManagerData(manager) {
     return manager.data();
 }
 
@@ -111,11 +121,11 @@ async function addManager(name, mail, companyName, phoneNumber) {
             "mail": mail,
             "companyName": companyName,
             "phoneNumber": phoneNumber,
-            "drivers": []
+            "drivers": [],
         }
-        const res = await db.collection('managers').add(data);
+        const res = await db.collection('managers').add(data).catch(error => { console.log(error); });;
         return res;
     }
 }
 
-export { getAllManagers, addManager, isAvailableMail, isAvailablePhone, getManagerbyMail, getManagerId, getManagerData};
+export { getAllManagers, addManager, isAvailableMail, isAvailablePhone, getManagerbyMail, getManagerId, getManagerData };
