@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React,{ useState, useReducer, useEffect } from "react";
 import { Text,StyleSheet,Image,TouchableOpacity,SafeAreaView,ScrollView,StatusBar,Button } from "react-native";
 import Order from "../components/Order";
-import  getAllOrders  from "../services/orders.services";
+import  {getAllOrders}  from "../services/orders.services";
 import { auth } from "../firebase";
 import DialogInput from "../components/DialogInput";
 import { Header } from 'react-native-elements';
@@ -28,27 +28,19 @@ const ManagerHomeScreen = () => {
   });
   const navigation = useNavigation();
   useEffect(async () => {
-    const _orders = await getAllOrders("mia59@mail.aub.edu");
-   
-    let __orders = [];
-    _orders.map((order) => {
-      __orders.push(order.data());
-    });
-    console.log(__orders);
-    console.log("ekht hashem");
-    dispatch({ type: "set-orders", orders: __orders });
+    
+      console.log("ekht hashem  (.) (.)");
+      const _orders = await getAllOrders("mia59@mail.aub.edu");
+      let __orders = [];
+      _orders.map((order) => {
+        __orders.push(order.data());
+      });
+    
+      dispatch({ type: "set-orders", orders: __orders });
+    
   }, []);
 
-  const [color, changeColor] = useState("red");
-  // const [refreshing, setRefreshing] = React.useState(false);
-
-  // const onRefresh = () => {
-  //   setRefreshing(true);
-  //   setTimeout(() => {
-  //     changeColor(color);
-  //     setRefreshing(false);
-  //   }, 2000);
-  // };
+ 
   return (
     <>
        <Header containerStyle={{ backgroundColor: 'white', }}>                   

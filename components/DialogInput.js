@@ -7,10 +7,14 @@ import { AntDesign } from "@expo/vector-icons";
 import { auth } from '../firebase';
 function DialogInput() {
     const [Dropoff, setDropoff] = useState("");
+    const [Building, setBuilding] = useState("");
+    const [City, setCity] = useState("");
+    const [Street, setStreet] = useState("");
+    const [Floor,setFloor] = useState("");
+    const [PickupLocation,setPickupLocation] = useState("");
     const [CustomerNum, setCustomerNum] = useState("");
     const [Price, setPrice] = useState("");
-    const [Length, setLength] = useState("");
-    const [Width, setWidth] = useState("");
+
     const [DeliveryCharge, setDeliveryCharge] = useState("");
     const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
     const managerEmail = auth.currentUser.email;
@@ -79,10 +83,34 @@ function DialogInput() {
                 >
                  
                   <TextInput
-                    label="Drop off Location"
-                    value={Dropoff.value}
+                    label="Pick up Location"
+                    value={PickupLocation.value}
                     returnKeyType="next"
-                    onChangeText={(text) => setDropoff(text)}
+                    onChangeText={(text) => setPickupLocation(text)}
+                  />
+                  <TextInput
+                    label="City"
+                    value={City.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setCity(text)}
+                  />
+                   <TextInput
+                    label="Building"
+                    value={Building.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setBuilding(text)}
+                  />
+                   <TextInput
+                    label="Floor"
+                    value={Floor.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setFloor(text)}
+                  />
+                  <TextInput
+                    label="Street"
+                    value={Street.value}
+                    returnKeyType="next"
+                    onChangeText={(text) => setStreet(text)}
                   />
                   <TextInput
                     label="Customer Number"
@@ -90,18 +118,7 @@ function DialogInput() {
                     returnKeyType="next"
                     onChangeText={(text) => setCustomerNum(text.toString())}
                   />
-                  <TextInput
-                    label="Length"
-                    value={Length.value}
-                    returnKeyType="next"
-                    onChangeText={(text) => setLength(parseInt(text))}
-                  />
-                  <TextInput
-                    label="Width"
-                    value={Width.value}
-                    returnKeyType="next"
-                    onChangeText={(text) => setWidth(parseInt(text))}
-                  />
+               
                   <TextInput
                     label="Price"
                     value={Price.value}
@@ -119,8 +136,11 @@ function DialogInput() {
                     title="Create"
                     onPress={() => {
                       createOrder(
-                        Width,
-                        Length,
+                        PickupLocation,
+                        Building,
+                        City,
+                        Floor,
+                        Street,
                         Dropoff,
                         Price,
                         DeliveryCharge,

@@ -37,8 +37,6 @@ export default function LoginScreen() {
         .then((userCredentials) => {
           const user = userCredentials.user;
           navigation.navigate("Root");
-
-          
         })
         .catch((error) => alert(error.message));
     }

@@ -17,11 +17,13 @@ const Order = ({ order }) => {
         marginTop: 100,
       }}
     >
-      
-      <Text style={styles.text}> Dropoff Location: {order.location.dropoff}</Text>
+      <Text style={styles.text}> Pick up Location : {order.pickupLocation}</Text>
+      <Text style={styles.text}> Dropoff Building : {order.dropoffLocation.building}</Text>
+      <Text style={styles.text}> Dropoff City : {order.dropoffLocation.city}</Text>
+      <Text style={styles.text}> Dropoff Floor: {order.dropoffLocation.floor}</Text>
+      <Text style={styles.text}> Dropoff Street: {order.dropoffLocation.street}</Text>
       <Text style={styles.text}> Customer phone number: {order.phoneNumberCustomer} </Text>
-      <Text style={styles.text}> Length: {order.dimensions.length} </Text>
-      <Text style={styles.text}> Width: {order.dimensions.width} </Text>
+  
       <Text style={styles.text}> Price: {order.price} </Text>
       <Text style={styles.text}> DeliverCharge: {order.deliveryCharge} </Text>
     </View>

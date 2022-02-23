@@ -30,18 +30,18 @@ async function getAllOrders(mailOfManager) {
  * @param {Number} deliveryCharge 
  * @returns {firebase.firestore.DocumentReference<firebase.firestore.DocumentData>} the created order
  */
-async function createOrder(dimensionLength, dimensionWidth, dropoff, price,deliveryCharge,phoneNumberCustomer,mailOfManager) {
+async function createOrder( pickup,building,city,floor,street, price,deliveryCharge,phoneNumberCustomer,mailOfManager) {
     const manager = await getManagerbyMail(mailOfManager);
     const id = getManagerId(manager);
     const data = {
-        "dimensions": {
-            "length": dimensionLength,
-            "width": dimensionWidth,
+        "pickupLocation":pickup,
+        "dropofflocation": {
+            "building": building,
+            "city":city,
+            "floor":floor,
+            "street":street,
         },
-        "location": {
-            "dropoff": dropoff,
-        },
-        "price": price,
+        "priceOfproduct": price,
         "deliveryCharge" : deliveryCharge,
         "manager" : id,
         "driver" : '',
