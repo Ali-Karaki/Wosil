@@ -22,15 +22,8 @@ async function getAllOrders(mailOfManager) {
 
 /**
  * async function to create and add an order to the database
-<<<<<<< HEAD
- * @param {Number} dimensionLength 
- * @param {Number} dimensionWidth 
- * @param {String} dropoff 
- *  @param {String} phoneNumberCustomer
-=======
  * @param {String} city 
  * @param {String} street 
->>>>>>> invite-remove-drivers
  * @param {Number} price 
  * @param {Number} deliveryCharge 
  * @param {string} pickupLocation
