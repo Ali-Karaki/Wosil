@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import { app } from "../firebase.js";
 import { isAvailableMail,isAvailablePhone,getManagerData,getManagerId,getManagerbyMail,getAllManagers,addManager} from "./managers.services.js";
-import { addDriver, getAllDrivers,getAllDriversAvailable,getAllDriversOfManager,getDriverbyMail, getDriverData, getDriverId, linkDriverToManager } from "./drivers.services.js";
+import { addDriver, getAllDrivers,getAllDriversOfManager,getDriverbyMail, getDriverData, getDriverId, linkDriverToManager,removeDriver } from "./drivers.services.js";
 import { getAllOrders,createOrder } from "./orders.services.js";
 
 //getting all managers test
@@ -44,8 +44,10 @@ import { getAllOrders,createOrder } from "./orders.services.js";
 //linkDriverToManager("test1","moe@gmail.com");
 
 //get all orders test
-const o = await getAllOrders("mia59@mail.aub.edu");
-o.forEach(doc => {console.log(doc.data());});
+// const o = await getAllOrders("mia59@mail.aub.edu");
+// o.forEach(doc => {console.log(doc.data());});
 
 //create order test
 //createOrder(1,1,"city","street",1,1,"121","moe@gmail.com");
+//addDriver("khaled jizi","jizi@gmail.com","70000111","motorcycle",'beirut',"mia59@mail.aub.edu");
+//removeDriver("jizi@gmail.com","mia59@mail.aub.edu");
