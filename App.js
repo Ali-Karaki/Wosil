@@ -11,8 +11,9 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
 import { Ionicons } from "@expo/vector-icons";
-
+import {GiCarWheel} from "react-icons/gi";
 import Sidebar from "./components/CustomDrawer";
+import ManageDriversScreen from "./screens/ManageDriversScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -76,9 +77,15 @@ function Root() {
         component={ManagerHomeScreen} 
         options = {{
           drawerIcon: ({color}) => (<Ionicons name="md-home"size={22} color = {color}/>)
-          }}
-     
+        }}
        />
+        <Drawer.Screen
+          name ="Drivers"
+          component={ManageDriversScreen}  
+          options = {{
+            drawerIcon: ({color}) => (<GiCarWheel name="GiCarWheel" size={22} color = {color} />)
+          }}           
+          />
     </Drawer.Navigator>
   );
 }

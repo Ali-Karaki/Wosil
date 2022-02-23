@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import React,{ useState, useReducer, useEffect } from "react";
-import { Text,StyleSheet,Image,TouchableOpacity,SafeAreaView,ScrollView,StatusBar,Button } from "react-native";
+import React,{ useReducer, useEffect } from "react";
+import { Text,StyleSheet,Image,TouchableOpacity,SafeAreaView,ScrollView,StatusBar } from "react-native";
 import Order from "../components/Order";
 import  {getAllOrders}  from "../services/orders.services";
 import { auth } from "../firebase";
@@ -45,7 +45,7 @@ const ManagerHomeScreen = () => {
     <>
        <Header containerStyle={{ backgroundColor: 'white', }}>                   
         <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} >
-        <Image source={require('../assets/drawer.jpg')} style={{ width: 50, height: 50, tintColor: 'black' }} />                    
+        <Image source={require('../assets/drawer.png')} style={{ width: 50, height: 50, tintColor: 'black' }} />                    
         </TouchableOpacity>               
         </Header>
 
