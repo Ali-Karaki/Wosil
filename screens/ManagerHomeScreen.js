@@ -12,6 +12,7 @@ import {
   TouchableHighlight,
   ScrollView,
   StatusBar,
+  Image,
 } from "react-native";
 import Dialog, {
   DialogTitle,
@@ -21,10 +22,11 @@ import Dialog, {
   SlideAnimation,
   ScaleAnimation,
 } from "react-native-popup-dialog";
-
 import AlertBox from "react-native-easy-alert";
 
+import { Icon } from "react-native-elements";
 import { Button, BackHandler, ToastAndroid } from "react-native";
+import { IconButton } from "react-native-paper";
 
 const ManagerHomeScreen = () => {
   const navigation = useNavigation();
@@ -63,37 +65,96 @@ const ManagerHomeScreen = () => {
     <>
       <SafeAreaView
         style={{
-          flex: 1.5,
-          backgroundColor: "white",
-          paddingTop: StatusBar.currentHeight,
+          flex: 1,
+          backgroundColor: "#5E40BC80",
+          //paddingTop: StatusBar.currentHeight,
         }}
       >
-        <ScrollView style={{ backgroundColor: "#f1f1f1" }}>
+        <ScrollView style={{ backgroundColor: "#5E40BC80" }}>
+          <View
+            style={{
+              width: "49.9%",
+              height: 64,
+              left: 0,
+              top: 0,
+              position: "absolute",
+              backgroundColor: "#4F379B",
+            }}
+          >
+            <Text
+              style={{ left: "15%", top: "25%", fontSize: 20, color: "white" }}
+            >
+              Past Orders
+            </Text>
+          </View>
+          <View
+            style={{
+              width: "49.9%",
+              height: 64,
+              left: "50.1%",
+              top: 0,
+              position: "absolute",
+              backgroundColor: "#4F379B",
+            }}
+          >
+            <Text
+              style={{ left: "15%", top: "25%", fontSize: 20, color: "white" }}
+            >
+              Ongoing Orders{" "}
+            </Text>
+          </View>
           <View style={styles.MainContainer}>
             {/* For Scale Animation Dialog */}
+            <Image
+              source={require("../assets/icon.png")}
+              style={{
+                width: 60,
+                height: 63.05,
+                right: 45,
+                top: "35%",
+                borderRadius: 50,
+              }}
+            />
+            <Text
+              style={{
+                width: 342,
+                height: 45,
+                position: "relative",
+                left: 200,
+                fontStyle: "normal",
+                fontWeight: "bold",
+                lineHeight: 30,
+                fontSize: 30,
+                color: "#FFD00E",
+              }}
+            >
+              Ongoing Orders
+            </Text>
 
             <TouchableOpacity
               onPress={() => {
                 setScaleAnimationDialogCreateOrder(true);
               }}
+              style={{ left: "50%" }}
             >
               <View
                 style={{
-                  backgroundColor: "purple",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 30,
-                  marginTop: 30,
-                  borderRadius: 9,
-                  borderWidth: 2,
-                  borderColor: "black",
-                  height: "50%",
-                  width: "100%",
+                  borderWidth: 1.5,
+                  borderRadius: 40,
+                  borderColor: "#5E40BC80",
+                  shadowColor: "#5E40BC80",
+                  backgroundColor: "#4F379B",
+                  shadowOffset: {
+                    width: 40,
+                    height: 40,
+                  },
+                  shadowOpacity: 0.6,
+                  elevation: 0.6,
+                  top: "25%",
+                  //left: "50%",
                 }}
               >
-                <Text style={{ color: "white" }}>
-                  Click Here to Create a New Order
-                </Text>
+                <Icon size={50} color="#C4C4C4" name="add" />
               </View>
             </TouchableOpacity>
 
@@ -264,18 +325,29 @@ const ManagerHomeScreen = () => {
               <View style={StyleSheet.MainContainer}>
                 <View
                   style={{
-                    backgroundColor: "purple",
-                    width: "100%",
-                    height: 100,
-                    borderColor: "#000",
-                    borderWidth: 2,
-                    borderRadius: 9,
+                    backgroundColor: "#C4C4C4",
+                    position: "relative",
+                    width: 357,
+                    height: 132,
+                    left: 30,
+                    borderColor: "#5E40BC",
+
+                    borderWidth: 1.5,
+                    borderRadius: 30,
+                    shadowColor: "#000000",
+                    shadowOffset: {
+                      width: 40,
+                      height: 40,
+                    },
+                    opacity: 0.95,
+                    elevation: 2,
+
                     justifyContent: "center",
                   }}
                 >
-                  <Text style={styles.text}> Order# </Text>
-                  <Text style={styles.text}> Driver: </Text>
-                  <Text style={styles.text}> Status: </Text>
+                  <Text style={{ fontSize: 20, color: "#000" }}> Order# </Text>
+                  <Text style={{ fontSize: 20, color: "#000" }}> Driver: </Text>
+                  <Text style={{ fontSize: 20, color: "#000" }}> Status: </Text>
                 </View>
               </View>
             </TouchableHighlight>
@@ -291,14 +363,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#5E40BC80",
   },
 
-  text: {
-    fontSize: 20,
-    color: "white",
-    textAlign: "left",
-  },
   button: {
     borderRadius: 20,
     padding: 10,
