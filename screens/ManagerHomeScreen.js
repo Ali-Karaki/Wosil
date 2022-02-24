@@ -73,7 +73,35 @@ const ManagerHomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
- 
+  MainContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#5E40BC80",
+  },
+
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+
+  textStyle: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  MainContainer: {
+    marginTop: 50,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "50%",
+  },
   appButtonContainer: {
     alignItems: "center",
     justifyContent: "center",

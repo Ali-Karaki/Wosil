@@ -46,11 +46,11 @@ export default function LoginScreen() {
     <SafeAreaView
       style={{
         flex: 1.5,
-        backgroundColor: "white",
+        backgroundColor: "#5E40BC80",
         paddingTop: StatusBar.currentHeight,
       }}
     >
-      <ScrollView style={{ backgroundColor: "#ffffff" }}>
+      <ScrollView style={{ backgroundColor: "#5E40BC80" }}>
         <Background>
           {/* <BackButton goBack={navigation.goBack} /> */}
           <Logo />
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   row: {
+    color: "white",
     flexDirection: "row",
     marginTop: 4,
   },
