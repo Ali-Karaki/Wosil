@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, ActivityIndicator } from "react-native";
 import { AppRegistry } from "react-native-web";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,9 +10,9 @@ import SignupScreen from "./screens/SignupScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
-import { ActivityIndicator } from "react-native";
-import { useState, useEffect } from "react";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Sidebar from "./components/CustomDrawer";
+import ManageDriversScreen from "./screens/ManageDriversScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -29,6 +29,10 @@ export default function App() {
       }
     });
   };
+
+  if (isLoggedIn) {
+    navigator.navigate("ManagerHomeScreen");
+  }
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -58,14 +62,33 @@ export default function App() {
     </NavigationContainer>
   );
 }
-``
 function Root() {
   return (
     <Drawer.Navigator
       initialRouteName="ManagerHomeScreen"
       drawerContent={(props) => <Sidebar {...props} />}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
-      <Drawer.Screen name="ManagerHomeScreen" component={ManagerHomeScreen} />
+      <Drawer.Screen
+        name="Home"
+        component={ManagerHomeScreen}
+        options={{
+          drawerIcon: ({ color }) => (
+            <Ionicons name="md-home" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Drivers"
+        component={ManageDriversScreen}
+        options={{
+          drawerIcon: ({ color }) => (
+            <MaterialIcons name="two-wheeler" size={22} color={color} />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 }
