@@ -1,12 +1,13 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import TextInput from './TextInput';
-import {TouchableOpacity,View,ScrollView,Button,Text} from 'react-native';
-import {Dialog, DialogContent,} from "react-native-popup-dialog";
+import {TouchableOpacity,View,ScrollView,Button,BackHandler,ToastAndroid,StyleSheet} from 'react-native';
+import {Dialog, DialogContent,DialogTitle,DialogButton} from "react-native-popup-dialog";
 import  {createOrder} from '../services/orders.services';
 import { AntDesign } from "@expo/vector-icons";
 import { auth } from '../firebase';
+import { Icon } from "react-native-elements";
+
 function DialogInput() {
-    const [Dropoff, setDropoff] = useState("");
     const [Building, setBuilding] = useState("");
     const [City, setCity] = useState("");
     const [Street, setStreet] = useState("");
@@ -14,71 +15,101 @@ function DialogInput() {
     const [PickupLocation,setPickupLocation] = useState("");
     const [CustomerNum, setCustomerNum] = useState("");
     const [Price, setPrice] = useState("");
-
     const [DeliveryCharge, setDeliveryCharge] = useState("");
     const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
     const managerEmail = auth.currentUser.email;
+    useEffect(() => {
+      const unsubscribe = BackHandler.addEventListener(
+        "hardwareBackPress",
+        handleBackButton
+      );
+  
+      return () => null;
+    }, []);
+    const handleBackButton = () => {
+      ToastAndroid.show("Cannot go back", ToastAndroid.SHORT);
+      return true;
+    };
   return (
-   
+    
    <>
             <TouchableOpacity
               onPress={() => {
                 setScaleAnimationDialog(true);
               }}
+              style={{  borderWidth: 1.5,
+                borderRadius: 40,
+                borderColor: "#5E40BC80",
+                shadowColor: "#5E40BC80",
+                backgroundColor: "#4F379B",
+                shadowOffset: {
+                  width: 40,
+                  height: 40,
+                },
+                shadowOpacity: 0.6,
+                elevation: 0.6,
+                marginTop:"-160%",
+                marginLeft:"30%",
+                marginRight:"20%",
+               
+               }}
             >
-              <View
-                style={{
-                  backgroundColor: "purple",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 30,
-                  marginLeft: 90,
-                  marginTop: 30,
-                  flexDirection: 'row',
-                  borderRadius: 9,
-                  borderWidth: 2,
-                  borderColor: "black",
-                  //height: "50%",
-                  width: "100%",
-  
-                  flexWrap:'wrap'
-                }}
-              >
-                <Text style={{ color: "white" }}>
-                  Click Here to Create a New Order
-                </Text>
-              </View>
+              
+              
+                <Icon size={50} color="#C4C4C4" name="add" />
+            
             </TouchableOpacity>
 
             <Dialog
-              style={{
-                width: "80%",
-                // height: "200px",
-              }}
-              visible={scaleAnimationDialog}
+             onTouchOutside={() => {
+              setScaleAnimationDialog(false);
+            }}
+            style={{
+              width :300,
+              marginRight: -50,
+
+            }}
+            visible={scaleAnimationDialog}
+            
+            onHardwareBackPress={() => {
+              setScaleAnimationDialogOrderDetails(false);
+              return true;
+            }}
+            dialogTitle={
+              <DialogTitle title="Order Details" hasTitleBar={false} />
+            }
+            actions={[
+              <DialogButton
+                text="DISMISS"
+                onPress={() => {
+                  setScaleAnimationDialog(false);
+                }}
+                key="button-1"
+              />,
+            ]}
             >
-              <DialogContent style={{ height: 500 }}>
+              <DialogContent style={{ height: 400 }}>
                 <TouchableOpacity
                   onPress={() => {
                     setScaleAnimationDialog(false);
                   }}
+                  style={{
+                    alignSelf: "flex-end",
+                    marginTop: 3,
+                    left: 5,
+                    top: 0,
+                    marginBottom:10,
+                    
+                  }}
                   //icon ={ <FontAwesome5  name="window-close" size = {24} />}
                 >
-                  <View
-                    style={{
-                      alignSelf: "flex-end",
-                      marginTop: 3,
-                      left: 5,
-                      top: 5,
-                      marginBottom: 5,
-                    }}
-                  >
+                  
                     <AntDesign name="closecircle" size={24} />
-                  </View>
+                  
                 </TouchableOpacity>
                 <ScrollView
                   style={{
-                    width: 250,
+                    width: 300,
                   }}
                 >
                  
@@ -141,7 +172,6 @@ function DialogInput() {
                         City,
                         Floor,
                         Street,
-                        Dropoff,
                         Price,
                         DeliveryCharge,
                         CustomerNum,

@@ -1,23 +1,32 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { View } from "react-native";
-import { Text } from "react-native";
+import { StyleSheet,View,Text } from "react-native";
+
 const Order = ({ order }) => {
   return (
+    
     <View
-      style={{
-        backgroundColor: "purple",
-        borderColor: "purple",
-        borderWidth: 10,
-        borderRadius: 9,
-        justifyContent: "center",
-        marginLeft: "10%",
-        height: 200,
-        width: 300,
-        marginTop: 100,
-      }}
+    style={{
+      backgroundColor: "#C4C4C4",
+      position: "relative",
+      width: "85%",
+      height: "100%",
+      left: 30,
+      borderColor: "#5E40BC",
+      //marginTop:"-40%",
+      borderWidth: 1.5,
+      borderRadius: 30,
+      shadowColor: "#000000",
+      shadowOffset: {
+        width: 40,
+        height: 40,
+      },
+      opacity: 0.7,
+      elevation: 2,
+
+      justifyContent: "center",
+    }}
     >
-      <Text style={styles.text}> Pick up Location : {order.pickupLocation}</Text>
+     <Text style={styles.text}> Pick up Location : {order.pickupLocation}</Text>
       <Text style={styles.text}> Dropoff Building : {order.dropoffLocation.building}</Text>
       <Text style={styles.text}> Dropoff City : {order.dropoffLocation.city}</Text>
       <Text style={styles.text}> Dropoff Floor: {order.dropoffLocation.floor}</Text>
@@ -34,8 +43,7 @@ export default Order;
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 18,
-    color: "white",
-    textAlign: "center",
+    fontSize: 12, color: "#000",marginLeft:"5%",
+
   },
 });

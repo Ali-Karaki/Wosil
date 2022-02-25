@@ -11,7 +11,7 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
 import { Ionicons } from "@expo/vector-icons";
-import {GiCarWheel} from "react-icons/gi";
+import {GiCarWheel} from "react-icons/gi"
 import Sidebar from "./components/CustomDrawer";
 import ManageDriversScreen from "./screens/ManageDriversScreen";
 
