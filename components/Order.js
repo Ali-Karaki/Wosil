@@ -9,7 +9,7 @@ const Order = ({ order }) => {
       backgroundColor: "#C4C4C4",
       position: "relative",
       width: "85%",
-      height: "100%",
+      height: "50%",
       left: 30,
       borderColor: "#5E40BC",
       //marginTop:"-40%",
@@ -20,9 +20,10 @@ const Order = ({ order }) => {
         width: 40,
         height: 40,
       },
+
       opacity: 0.7,
       elevation: 2,
-
+    
       justifyContent: "center",
     }}
     >
@@ -31,8 +32,7 @@ const Order = ({ order }) => {
       <Text style={styles.text}> Dropoff City : {order.dropoffLocation.city}</Text>
       <Text style={styles.text}> Dropoff Floor: {order.dropoffLocation.floor}</Text>
       <Text style={styles.text}> Dropoff Street: {order.dropoffLocation.street}</Text>
-      <Text style={styles.text}> Customer phone number: {order.phoneNumberCustomer} </Text>
-  
+      <Text style={styles.text}> Customer Phone number: {order.phoneNumberCustomer} </Text>
       <Text style={styles.text}> Price: {order.price} </Text>
       <Text style={styles.text}> DeliverCharge: {order.deliveryCharge} </Text>
     </View>

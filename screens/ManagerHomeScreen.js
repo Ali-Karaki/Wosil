@@ -33,7 +33,7 @@ const ManagerHomeScreen = () => {
   });
   const navigation = useNavigation();
   useEffect(async () => {
-      const _orders = await getAllOrders("mia59@mail.aub.edu");
+      const _orders = await getAllOrders("kwe04@mail.aub.edu");
       let __orders = [];
       _orders.map((order) => {
         __orders.push(order.data());
@@ -47,10 +47,10 @@ const ManagerHomeScreen = () => {
   
   return (
     <>
-       <Header containerStyle={{ backgroundColor: '#5E40BC80' }}>                   
+       <Header containerStyle={{ backgroundColor: '#5E40BC80'}}>                   
         <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} >
         <Image source={require('../assets/drawer.png')} style={{ width: 50, height: 50, tintColor: 'black' }} />    
-
+       
         </TouchableOpacity>               
         <Text
               style={{
@@ -88,20 +88,19 @@ const ManagerHomeScreen = () => {
         style={{
           flex: 1,
           backgroundColor: "#5E40BC80",
-         
+          height: 0.078*Dimensions.get('window').height
         }}
       >
-     
+        
+      <ScrollView>
+        <View > 
         <TouchableOpacity  style={{
               width: "49.9%",
               height: 64,
-              
-              bottom:0,
               justifyContent: 'center',
               textAlign: 'center',
-
               backgroundColor: "#4F379B",
-              // marginBottom:"40%",
+             
             }} onPress={() => dispatch({ type: 'show-past-orders' })}> 
          
             <Text
@@ -115,7 +114,8 @@ const ManagerHomeScreen = () => {
               width: "49.9%",
               height: 64,
               left: "50.1%",
-              marginTop:"-15.5%",
+              //marginTop:"-15.5%",
+              position:"absolute",
               backgroundColor: "#4F379B",
             }} onPress={() => dispatch({type: 'show-current-orders'})}
             >
@@ -127,20 +127,22 @@ const ManagerHomeScreen = () => {
             </Text>
          
           </TouchableOpacity>
-          
-        <View style={styles.MainContainer}>
-            {/* For Scale Animation Dialog */}
-            
-           
+        
           <DialogInput/>
-          </View>
-          <ScrollView>
+         
+        <ScrollView >
+          <View style = {{marginTop:"10%",marginBottom:"90%"}}>
             {state.ordersLoaded ? 
             (state.showCurrentOrders ?
+              
               state.orders.filter((order) => order.completed == false).map((order) => <Order key={order.phoneNumberCustomer} order={order} />)
             : state.orders.filter((order) => order.completed == true).map((order) => <Order key={order.phoneNumberCustomer} order={order} />)) : <></>}
-          </ScrollView>
+          </View>
+        </ScrollView>
          
+          
+        </View>
+      </ScrollView>
       </SafeAreaView>
     </>
   );
@@ -149,12 +151,12 @@ const ManagerHomeScreen = () => {
 const styles = StyleSheet.create({
 
   MainContainer: {
-    marginTop: "40%",
+    marginTop: "80%",
     flex: 1,
     marginLeft:"25%",
     justifyContent: "center",
     alignItems: "center",
-    width: "50%",
+    
   },
   appButtonContainer: {
     alignItems: "center",

@@ -10,8 +10,8 @@ import SignupScreen from "./screens/SignupScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
-import { Ionicons } from "@expo/vector-icons";
-import {GiCarWheel} from "react-icons/gi"
+import { Ionicons ,MaterialIcons } from "@expo/vector-icons";
+
 import Sidebar from "./components/CustomDrawer";
 import ManageDriversScreen from "./screens/ManageDriversScreen";
 
@@ -83,8 +83,9 @@ function Root() {
           name ="Drivers"
           component={ManageDriversScreen}  
           options = {{
-            drawerIcon: ({color}) => (<GiCarWheel name="GiCarWheel" size={22} color = {color} />)
-          }}           
+            drawerIcon: ({color}) => (<MaterialIcons  name  ="two-wheeler" size={22} color = {color}/>)
+          }}
+              
           />
     </Drawer.Navigator>
   );
