@@ -52,7 +52,7 @@ export default function LoginScreen() {
     >
       <ScrollView style={{ backgroundColor: "#5E40BC80" }}>
         <Background>
-          {/* <BackButton goBack={navigation.goBack} /> */}
+          
           <Logo />
           <Header>Welcome back!</Header>
           <TextInput

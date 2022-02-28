@@ -13,6 +13,7 @@ import { auth } from "./firebase";
 import { Ionicons ,MaterialIcons } from "@expo/vector-icons";
 import Sidebar from "./components/CustomDrawer";
 import ManageDriversScreen from "./screens/ManageDriversScreen";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 
 LogBox.ignoreLogs(['Setting a timer']);
@@ -32,8 +33,8 @@ export default function App() {
     });
   };
 
-  if(isLoggedIn) {
-    navigator.navigate('ManagerHomeScreen');
+  if (isLoggedIn) {
+    navigator.navigate("ManagerHomeScreen");
   }
 
   useEffect(() => {
@@ -74,10 +75,12 @@ function Root() {
       }}
     >
       <Drawer.Screen
-        name="Home" 
-        component={ManagerHomeScreen} 
-        options = {{
-          drawerIcon: ({color}) => (<Ionicons name="md-home"size={22} color = {color}/>)
+        name="Home"
+        component={ManagerHomeScreen}
+        options={{
+          drawerIcon: ({ color }) => (
+            <Ionicons name="md-home" size={22} color={color} />
+          ),
         }}
        />
         <Drawer.Screen
