@@ -13,7 +13,7 @@ import { auth } from "./firebase";
 import { Ionicons ,MaterialIcons } from "@expo/vector-icons";
 import Sidebar from "./components/CustomDrawer";
 import ManageDriversScreen from "./screens/ManageDriversScreen";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+
 
 
 LogBox.ignoreLogs(['Setting a timer']);

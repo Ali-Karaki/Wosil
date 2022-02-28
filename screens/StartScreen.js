@@ -5,12 +5,13 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import Paragraph from "../components/Paragraph";
 import { useNavigation } from "@react-navigation/core";
-import { Text, TouchableOpacity } from "react-native";
-import ManagerHomeScreen from "../screens/ManagerHomeScreen";
+import { Text, TouchableOpacity} from "react-native";
+
 
 export default function StartScreen() {
   const navigation = useNavigation();
   return (
+  
     <Background>
       <Logo />
       <Header>Welcome to Wosil !</Header>
@@ -30,5 +31,6 @@ export default function StartScreen() {
         Sign Up
       </Button>
     </Background>
+  
   );
 }

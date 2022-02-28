@@ -93,7 +93,7 @@ export default function SignupScreen() {
       <SafeAreaView
         style={{
           flex: 1.5,
-          backgroundColor: "white",
+          backgroundColor: "#ffffff",
           paddingTop: StatusBar.currentHeight,
         }}
       >
@@ -184,6 +184,7 @@ export default function SignupScreen() {
           flex: 1.5,
           backgroundColor: "white",
           paddingTop: StatusBar.currentHeight,
+         
         }}
       >
         <ScrollView style={{ backgroundColor: "#ffffff" }}>
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: "7.2%",
     borderWidth: 1,
   },
 });
