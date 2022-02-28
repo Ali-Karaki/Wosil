@@ -12,8 +12,6 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "set-orders":
       return { ...state, orders: action.orders, ordersLoaded: true };
-    case "increase-count":
-      return { ...state, count: state.count + 1 };
     case 'show-past-orders':
       return { ...state, showCurrentOrders: false }
     case 'show-current-orders':
@@ -28,7 +26,6 @@ const ManagerHomeScreen = () => {
   const [state, dispatch] = useReducer(reducer, {
     ordersLoaded: false,
     orders: [],
-    count: 0,
     showCurrentOrders: true
   });
   const navigation = useNavigation();
@@ -88,7 +85,7 @@ const ManagerHomeScreen = () => {
         style={{
           flex: 1,
           backgroundColor: "#5E40BC80",
-          height: 0.078*Dimensions.get('window').height
+          height: Dimensions.get('window').height
         }}
       >
         

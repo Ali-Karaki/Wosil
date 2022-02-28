@@ -1,15 +1,16 @@
 import React from "react";
-import { StyleSheet,View,Text } from "react-native";
+import { Dimensions,StyleSheet,View,Text } from "react-native";
 
 const Order = ({ order }) => {
   return (
     
     <View
     style={{
+      marginTop:"3%",
       backgroundColor: "#C4C4C4",
       position: "relative",
       width: "85%",
-      height: "50%",
+      //height: "35%",
       left: 30,
       borderColor: "#5E40BC",
       //marginTop:"-40%",

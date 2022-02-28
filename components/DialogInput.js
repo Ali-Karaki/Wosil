@@ -6,6 +6,7 @@ import  {createOrder} from '../services/orders.services';
 import { AntDesign } from "@expo/vector-icons";
 import { auth } from '../firebase';
 import { Icon } from "react-native-elements";
+import RNRestart from 'react-native-restart';
 
 function DialogInput() {
     const [Building, setBuilding] = useState("");
@@ -151,7 +152,7 @@ function DialogInput() {
                         Building,
                         Floor,
                       ) && setScaleAnimationDialog(false) &&
-                     document.location.reload();
+                      RNRestart.Restart();
                     }}
                     key="button-1"
                   />

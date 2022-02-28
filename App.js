@@ -1,5 +1,5 @@
 import React ,{useState,useEffect}from "react";
-import {StyleSheet,ActivityIndicator,} from "react-native";
+import {StyleSheet,ActivityIndicator, LogBox} from "react-native";
 import { AppRegistry } from "react-native-web";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,10 +11,11 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase";
 import { Ionicons ,MaterialIcons } from "@expo/vector-icons";
-
 import Sidebar from "./components/CustomDrawer";
 import ManageDriversScreen from "./screens/ManageDriversScreen";
 
+
+LogBox.ignoreLogs(['Setting a timer']);
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
