@@ -1,26 +1,45 @@
-import { useNavigation } from "@react-navigation/core";
-import React, { useReducer, useEffect, useCallback } from "react";
+import React, { useEffect, useReducer } from "react";
 import {
   Dimensions,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
+  Image,
+  View,
   SafeAreaView,
   ScrollView,
-  View,
-  BackHandler,
-  ToastAndroid,
 } from "react-native";
-import Order from "../components/Order";
-import { getAllOrders } from "../services/orders.services";
-import { auth } from "../firebase";
-import DialogInput from "../components/DialogInput";
 import { Header } from "react-native-elements";
+import { useNavigation } from "@react-navigation/core";
 import { DrawerActions } from "@react-navigation/native";
+import { getAllDriversOfManager } from "../services/drivers.services";
+import DriverInfo from "../components/DriverInfo";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "set-drivers":
+      return { ...state, drivers: action.drivers, driversLoaded: true };
+
+    default:
+      return { ...state };
+  }
+};
+
 function ManageDriversScreen() {
   const navigation = useNavigation();
-
+  const [state, dispatch] = useReducer(reducer, {
+    driversLoaded: false,
+    drivers: [],
+  });
+  useEffect(async () => {
+    const _drivers = await getAllDriversOfManager("mia59@mail.aub.edu");
+    let __drivers = [];
+    _drivers.map((driver) => {
+      __drivers.push(driver.data());
+    });
+    console.log(__drivers);
+    dispatch({ type: "set-drivers", drivers: __drivers });
+  }, []);
   return (
     <>
       <Header containerStyle={{ backgroundColor: "#5E40BC80" }}>
@@ -37,8 +56,7 @@ function ManageDriversScreen() {
             width: "110%",
             height: 45,
             position: "relative",
-            left: "15%",
-            // right:"30%",
+            left: "30%",
             marginTop: "5%",
             justifyContent: "center",
             alignItems: "center",
@@ -49,7 +67,7 @@ function ManageDriversScreen() {
             color: "#FFD00E",
           }}
         >
-          Drivers Page
+          Drivers
         </Text>
         <Image
           source={require("../assets/icon.png")}
@@ -66,43 +84,32 @@ function ManageDriversScreen() {
         style={{
           flex: 1,
           backgroundColor: "#5E40BC80",
+          height: Dimensions.get("window").height,
         }}
       >
         <ScrollView>
           <View>
-            <View
-              style={{
-                backgroundColor: "#C4C4C4",
-                position: "relative",
-                width: "85%",
-                height: "100%",
-                left: 30,
-                borderColor: "#5E40BC",
-                //marginTop:"-40%",
-                borderWidth: 1.5,
-                borderRadius: 30,
-                shadowColor: "#000000",
-                shadowOffset: {
-                  width: 40,
-                  height: 40,
-                },
-                opacity: 0.7,
-                elevation: 2,
-
-                justifyContent: "center",
-              }}
-            >
-              <Text style={styles.text}>Name:</Text>
-              <Text style={styles.text}>Vehicle:</Text>
-              <Text style={styles.text}>Phone Number:</Text>
-              <Text style={styles.text}>City:</Text>
-            </View>
+            <ScrollView>
+              <View style={{ marginTop: "10%" }}>
+                {state.driversLoaded ? (
+                  state.drivers.map((driver) => (
+                    <DriverInfo key={driver.phoneNumber} driver={driver} />
+                  ))
+                ) : (
+                  <></>
+                )}
+              </View>
+            </ScrollView>
           </View>
         </ScrollView>
       </SafeAreaView>
     </>
   );
 }
+
+
+export default ManageDriversScreen;
+
 const styles = StyleSheet.create({
   text: {
     fontSize: 12,
@@ -110,5 +117,3 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
   },
 });
-
-export default ManageDriversScreen;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, StyleSheet, View, StatusBar,SafeAreaView,ScrollView } from "react-native";
+import {Dimensions,TouchableOpacity, StyleSheet, View, StatusBar,SafeAreaView,ScrollView } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -43,16 +43,19 @@ export default function LoginScreen() {
   };
 
   return (
+   <>
     <SafeAreaView
       style={{
         flex: 1.5,
-        backgroundColor: "#5E40BC80",
+        //backgroundColor: "#5E40BC80",
         paddingTop: StatusBar.currentHeight,
+        
       }}
     >
-      <ScrollView style={{ backgroundColor: "#5E40BC80" }}>
-        <Background>
-          {/* <BackButton goBack={navigation.goBack} /> */}
+      
+      
+        <Background  >
+          
           <Logo />
           <Header>Welcome back!</Header>
           <TextInput
@@ -95,8 +98,8 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </View>
         </Background>
-      </ScrollView>
     </SafeAreaView>
+   </>
   );
 }
 
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
   },
   forgot: {
     fontSize: 13,
-    color: theme.colors.secondary,
+    color: theme.colors.primary,
   },
   link: {
     fontWeight: "bold",

@@ -34,7 +34,7 @@ import { getAllOrders,createOrder } from "./orders.services.js";
 //console.log(getDriverId(driver),getDriverData(driver));
 
 //add driver test
-//addDriver("name","test5","test6","motorcycle","beirut");
+//addDriver("mohamad al aaraj","test@hotmail.com","71678092","car","beirut","kwe04@mail.aub.edu");
 
 //get all drivers of manager
 //const drivers = await getAllDriversOfManager("moe@gmail.com")
