@@ -19,7 +19,6 @@ function DialogInput() {
   const [DeliveryCharge, setDeliveryCharge] = useState("");
   const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
   const managerEmail = auth.currentUser.email;
-
   return (
     <>
       <TouchableOpacity
@@ -100,7 +99,7 @@ function DialogInput() {
               onChangeText={(text) => setStreet(text)}
             />
             <TextInput
-              label="Customer Number"
+              label="Customer Phone Number"
               value={CustomerNum.value}
               returnKeyType="next"
               onChangeText={(text) => setCustomerNum(text.toString())}

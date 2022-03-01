@@ -3,7 +3,6 @@ import { Dimensions,StyleSheet,View,Text } from "react-native";
 
 const Order = ({ order }) => {
   return (
-    
     <View
     style={{
       marginTop:"3%",
@@ -39,12 +38,11 @@ const Order = ({ order }) => {
     </View>
   );
 };
-
-export default Order;
-
 const styles = StyleSheet.create({
   text: {
-    fontSize: 12, color: "#000",marginLeft:"5%",
-
+    fontSize: 12,
+    color: "#000",
+    marginLeft: "5%",
   },
 });
+export default Order;
